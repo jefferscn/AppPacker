@@ -151,6 +151,8 @@ async function pack(cfg) {
         logger.info('unzip www OK');
         fs.createReadStream(path.resolve(__dirname, 'serverpath.html')).pipe(fs.createWriteStream(path.resolve(o.wwwPath, 'serverpath.html')));
         logger.info('copy serverpath.html OK');
+        fs.createReadStream(path.resolve(__dirname, 'checkupdate.html')).pipe(fs.createWriteStream(path.resolve(o.wwwPath, 'checkupdate.html')));
+        logger.info('copy checkupdate.html OK');
         if (o.appPlatform == 'android') {
             logger.info('add hook begin');
             fs.createReadStream(path.resolve(__dirname, './cordovapack/hooks/android.max_aspect.js')).pipe(fs.createWriteStream(path.resolve(o.hooksPath, 'android.max_aspect.js')));
@@ -200,11 +202,14 @@ async function pack(cfg) {
             cfg.targetUrl = data.url;
             cfg.save();
         };
-        await updateProject(cfg.projectId, o.appPlatform, {
-            taskId: cfg.id,
-            version: o.appVersion,
-            releaseDate: Date.now(),
-        })
+        if (o.appBuildType === 'release') {
+            await updateProject(cfg.projectId, o.appPlatform, {
+                url: cfg.targetUrl,
+                taskId: cfg.id,
+                version: o.appVersion,
+                releaseDate: Date.now(),
+            });
+        }
     };
     try {
         cfg.status.code = 'processing';

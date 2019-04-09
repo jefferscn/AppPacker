@@ -1,5 +1,6 @@
 import path from 'path';
-const baseUrl ='https://dev.bokesoft.com/erpmobile/'; 
+const baseUrl ='https://dev.bokesoft.com/erpmobile'; 
+// const baseUrl ='http://192.168.43.191:3001'; 
 export default baseUrl;
 
 export function resolve(p){

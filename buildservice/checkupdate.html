@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,height=device-height" />
+    <title>Updater</title>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #msg {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #ios {
+            display: none;
+            flex: 1;
+            background-color: gray;
+        }
+
+        .dialog {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .dialog-overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: #000;
+            opacity: .7;
+            filter: alpha(opacity:70);
+        }
+
+        .dialog-box {
+            width: 80%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -80px 0 0 -40%;
+            z-index: 2;
+            background-color: #fff;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .dialog-detail {
+            padding: 30px 20px;
+            font-size: 20px;
+            line-height: 1.5;
+        }
+
+        .dialog-opera {
+            width: 100%;
+            border-top: 1px solid #ddd;
+        }
+
+        .dialog-btn {
+            height: 50px;
+            border: none;
+            background: none;
+            color: #157efb;
+            font-size: 18px;
+            line-height: 50px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .dialog-btn-close {
+            width: 100%;
+        }
+
+        .dialog-btn-cancel,
+        .dialog-btn-ok {
+            width: 50%;
+            float: left;
+        }
+
+        .dialog-btn-ok {
+            border-left: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+    </style>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script>
+        function changeMsg(msg) {
+            var ele = document.getElementById('msg');
+            ele.innerText = msg;
+        };
+        function showIOSUpdateModal(url) {
+            var ioslink = document.getElementById('ioslink');
+            if (ioslink) {
+                ioslink.setAttribute('href', url);
+            }
+            var ele = document.getElementById('ios');
+            if (ele) {
+                ele.style = 'display: flex';
+            }
+        };
+
+        function updateAndroid(url) {
+            return new Promise(function (resolve, reject) {
+                window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (fs) {
+                    //创建文件
+                    var platform = device.platform.toLowerCase();
+                    fs.getFile('android.apk', { create: true }, function (fileEntry) {
+                        download(fileEntry, url).catch(reject);
+                        resolve();
+                    }, reject);
+                }, reject)
+            })
+        }
+
+        function download(fileEntry, url) {
+            return new Promise(function (resolve, reject) {
+                var ft = new FileTransfer();
+                var fileURL = fileEntry.toURL();
+                //监听下载进度
+                ft.onprogress = function (e) {
+                    console.info(e);
+                    if (e.lengthComputable) {
+                        var percent = (e.loaded / e.total) * 100;
+                        changeMsg('downloading package ' + percent.toFixed(2) + '%');
+                    }
+                }
+                ft.download(url, fileURL, function (entry) {
+                    cordova.plugins.fileOpener2.open(
+                        entry.toURL(),
+                        'application/vnd.android.package-archive'
+                    );
+                    resolve();
+                }, function (err) {
+                    reject(err);
+                });
+            });
+        }
+
+        function versionCompare(v1, v2, options) {
+            var lexicographical = options && options.lexicographical,
+                zeroExtend = options && options.zeroExtend,
+                v1parts = v1.split('.'),
+                v2parts = v2.split('.');
+
+            function isValidPart(x) {
+                return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x);
+            }
+
+            if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
+                return NaN;
+            }
+
+            if (zeroExtend) {
+                while (v1parts.length < v2parts.length) v1parts.push("0");
+                while (v2parts.length < v1parts.length) v2parts.push("0");
+            }
+
+            if (!lexicographical) {
+                v1parts = v1parts.map(Number);
+                v2parts = v2parts.map(Number);
+            }
+
+            for (var i = 0; i < v1parts.length; ++i) {
+                if (v2parts.length == i) {
+                    return 1;
+                }
+
+                if (v1parts[i] == v2parts[i]) {
+                    continue;
+                }
+                else if (v1parts[i] > v2parts[i]) {
+                    return 1;
+                }
+                else {
+                    return -1;
+                }
+            }
+
+            if (v1parts.length != v2parts.length) {
+                return -1;
+            }
+
+            return 0;
+        }
+        function updateApp(platform, link) {
+            switch (platform) {
+                case 'android':
+                    // YIGO.UIOptCenter.download(link, true);
+                    return updateAndroid(link).catch(function (err) {
+                        changeMsg(err);
+                        gotoApp();
+                    });
+                    break;
+                case 'ios':
+                    showIOSUpdateModal(link);
+                    break;
+            }
+        };
+        function gotoApp() {
+            document.location.href = "index.html";
+        };
+        function checkupdate() {
+            return new Promise(function (resovle, reject) {
+                try {
+                    cordova.getAppVersion.getPackageName()
+                        .then(function (v) {
+                            var platform = device.platform.toLowerCase();
+                            var checkUpdateUrl = 'http://192.168.43.191:3001/checkupdate/' + v;
+                            function onSuccess(data) {
+                                var remote = data;
+                                var remoteVersion;
+                                var remoteLink;
+                                platformData = remote[platform];
+                                if (platformData) {
+                                    remoteVersion = platformData.Version;
+                                    remoteLink = platformData.Link;
+                                }
+                                if (!remoteVersion) {
+                                    resolve();
+                                    return;
+                                }
+                                cordova.getAppVersion.getVersionNumber()
+                                    .then(function (version) {
+                                        var versionCompResult = versionCompare(remoteVersion, version);
+                                        var needUpdate = versionCompResult > 0;
+                                        if (needUpdate) {
+                                            updateApp(platform, platformData.Url);
+                                        } else {
+                                            resolve();
+                                        }
+                                    });
+                            };
+                            fetch(checkUpdateUrl, {
+                                method: 'GET'
+                            })
+                            .then(function (res) {
+                                return res.json()
+                            })
+                            .then(onSuccess)
+                            .catch(function(err) {
+                                reject(ex);
+                            });
+                        });
+                } catch (ex) {
+                    reject(ex);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id='msg'>checking update...</div>
+    <div id='ios'>
+        <div class="dialog">
+            <div class="dialog-box">
+                <div class="dialog-detail">
+                    发现新版本，确认更新
+                </div>
+                <div class="dialog-opera">
+                    <a id="ioslink" href="" class="dialog-btn">更新</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("deviceready", function() { 
+            checkupdate().then(gotoApp).catch(gotoApp);
+        }, false);
+    </script>
+</body>

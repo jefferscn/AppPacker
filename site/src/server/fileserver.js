@@ -41,8 +41,10 @@ export default function bind(app, mongoose) {
             var filename = fr.filename;
             var mimetype = fr.mimetype;
             var newFileName = encodeURIComponent(filename);
+            var stats = fs.statSync(file); 
             res.setHeader('Content-Disposition', 'inline;filename*=UTF-8\'\'' + newFileName);
             res.setHeader('Content-type', mimetype);
+            res.setHeader('Content-Length', stats.size);
             var filestream = fs.createReadStream(file);
             filestream.on('error', function(err){ 
                 res.status(500).send({
@@ -60,10 +62,11 @@ export default function bind(app, mongoose) {
             var file = path.resolve(__dirname, fr.path);
             var filename = fr.filename;
             var mimetype = fr.mimetype;
+            var stats = fs.statSync(file); 
             var newFileName = encodeURIComponent(filename);
             res.setHeader('Content-Disposition', 'inline;filename*=UTF-8\'\'' + newFileName);
             res.setHeader('Content-type', mimetype);
-            console.log(1);
+            res.setHeader('Content-Length', stats.size);
             var filestream = fs.createReadStream(file);
             filestream.on('error', function(err){ 
                 console.log(err);
