@@ -54,12 +54,14 @@ const projectSchema = new mongoose.Schema({
         ios: {
             taskId: String,    //taskId
             version: String,
-            releaseDate: Date
+            releaseDate: Date,
+            url: String,
         },
         android: {
             taskId: String,    //taskId
             version: String,
-            releaseDate: Date
+            releaseDate: Date,
+            url: String,
         },
     },
 }, {

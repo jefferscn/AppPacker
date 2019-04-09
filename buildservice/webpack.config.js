@@ -38,7 +38,9 @@ const config = {
     node : {
         __dirname: false,
     },
-    externals: [nodeExternals()],
+    externals: [nodeExternals({
+        whitelist:['createicon']
+    })],
     module: {
         loaders: [
             {

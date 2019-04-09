@@ -12,6 +12,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import checkUpdate from './server/checkupdate';
 import cors from 'cors';
 import webpackDevConfig from '../webpack.config';
+import Config from '../config';
 import { ProjectSchema, TaskSchema, Project, FrameworkSchema, Framework } from './ui/model';
 const app = new express();
 app.use(cors());
@@ -33,7 +34,7 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.mongoose = mongoose; // used for testing
-mongoose.connect("mongodb://localhost/cordovapack");
+mongoose.connect(Config.dbpath);
 
 app.use(webpackHotMiddleware(compiler));
 app.use(morgan('dev'));

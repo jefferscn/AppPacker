@@ -4,7 +4,10 @@ async function checkUpdate(req, res) {
     const projectId = req.params.projectId;
     const result = {};
     result.projectId = projectId;
-    const project = await Project.findById(projectId);
+    // const project = await Project.findById(projectId);
+    const project = await Project.findOne({
+        appId: projectId,
+    });
     console.log(project);
     if (!project) {
         res.state(404).end();
@@ -13,19 +16,21 @@ async function checkUpdate(req, res) {
     console.log(project.lastRelease);
     if (project.lastRelease) {
         if (project.lastRelease.android && project.lastRelease.android.version) {
-            result.androidVersion = project.lastRelease.android.version;
-            result.androidLink = `${baseUrl}/#/tasks/${project.lastRelease.android.taskId}/show`;
-            result.androidUpdateTime = project.lastRelease.android.releaseDate;
+            result.android = {};
+            result.android.Version = project.lastRelease.android.version;
+            result.android.Url =`${baseUrl}/${project.lastRelease.android.url}`;
+            result.android.Link = `${baseUrl}/#/tasks/${project.lastRelease.android.taskId}/show`;
+            result.android.UpdateTime = project.lastRelease.android.releaseDate;
         }
         if (project.lastRelease.ios && project.lastRelease.ios.version) {
-            result.iosVersion = project.lastRelease.ios.version;
-            result.iosLink = `${baseUrl}/#/tasks/${project.lastRelease.ios.taskId}/show`;
-            result.iosUpdateTime = project.lastRelease.ios.releaseDate;
+            result.ios = {};
+            result.ios.Url =`${baseUrl}/${project.lastRelease.ios.url}`;
+            result.ios.Version = project.lastRelease.ios.version;
+            result.ios.Link = `${baseUrl}/#/tasks/${project.lastRelease.ios.taskId}/show`;
+            result.ios.UpdateTime = project.lastRelease.ios.releaseDate;
         }
     }
-    res.json({
-        message:result
-    }).end();
+    res.json(result).end();
 }
 export default (app) => {
     app.get('/checkupdate/:projectId', checkUpdate);

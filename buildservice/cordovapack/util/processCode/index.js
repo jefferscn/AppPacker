@@ -84,7 +84,10 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
                 //content
                 //<content src="index.html"/>
                 if (appBuildType === 'debug') {
-                    $('content').attr('src', 'serverpath.html');
+                    $('content').attr('src', 'checkupdate.html');
+                    // $('content').attr('src', 'serverpath.html');
+                } else {
+                    $('content').attr('src', 'checkupdate.html');
                 }
                 fs.writeFile(configXML, $.xml(), function (err, data) {
                     if (err) {
