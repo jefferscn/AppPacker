@@ -46,6 +46,10 @@ const projectSchema = new mongoose.Schema({
             password: String
         },
     },
+    wechat: {
+        appId: String,
+        appsecret: String,
+    },
     plugins: [{
         platform:String,
         url:String

@@ -62,6 +62,10 @@ export class ProjectCreate extends PureComponent{
                         <TextInput label="签名用户" source="android.keyStore.userName" />
                         <TextInput label="签名密码" source="android.keyStore.password" type="password"/>
                     </FormTab>
+                    <FormTab label="微信">
+                        <TextInput source="wechat.appId" label="appID" />
+                        <TextInput source="wechat.appsecret" label="appsecret"  />
+                    </FormTab>
                     <FormTab label="插件">
                         <PluginInput source="plugins" />
                     </FormTab>
@@ -107,6 +111,10 @@ export class ProjectEdit extends PureComponent{
                         </FileInput>
                         <TextInput label="签名用户" source="android.keyStore.userName" />
                         <TextInput label="签名密码" source="android.keyStore.password" type="password"/>
+                    </FormTab>
+                    <FormTab label="微信">
+                        <TextInput source="wechat.appId" label="appID" />
+                        <TextInput source="wechat.appsecret" label="appsecret"  />
                     </FormTab>
                     <FormTab label="插件">
                         <PluginInput source="plugins" />

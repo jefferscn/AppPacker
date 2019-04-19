@@ -10,10 +10,12 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import checkUpdate from './server/checkupdate';
+import wechatsign from './server/wechat';
 import cors from 'cors';
 import webpackDevConfig from '../webpack.config';
-import Config from '../config';
+import Config from './config';
 import { ProjectSchema, TaskSchema, Project, FrameworkSchema, Framework } from './ui/model';
+
 const app = new express();
 app.use(cors());
 export default app;
@@ -178,6 +180,7 @@ app.get('/', function (req, res) {
 });
 
 checkUpdate(app);
+wechatsign(app);
 
 app.use(function (error, req, res, next) {
     console.log(error);
