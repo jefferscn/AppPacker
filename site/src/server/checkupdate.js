@@ -18,15 +18,15 @@ async function checkUpdate(req, res) {
         if (project.lastRelease.android && project.lastRelease.android.version) {
             result.android = {};
             result.android.Version = project.lastRelease.android.version;
-            result.android.Url =`${baseUrl}/${project.lastRelease.android.url}`;
-            result.android.Link = `${baseUrl}/#/tasks/${project.lastRelease.android.taskId}/show`;
+            result.android.Url =`${baseUrl}${project.lastRelease.android.url}`;
+            result.android.Link = `${baseUrl}#/tasks/${project.lastRelease.android.taskId}/show`;
             result.android.UpdateTime = project.lastRelease.android.releaseDate;
         }
         if (project.lastRelease.ios && project.lastRelease.ios.version) {
             result.ios = {};
-            result.ios.Url =`${baseUrl}/${project.lastRelease.ios.url}`;
+            result.ios.Url =`${baseUrl}${project.lastRelease.ios.url}`;
             result.ios.Version = project.lastRelease.ios.version;
-            result.ios.Link = `${baseUrl}/#/tasks/${project.lastRelease.ios.taskId}/show`;
+            result.ios.Link = `${baseUrl}#/tasks/${project.lastRelease.ios.taskId}/show`;
             result.ios.UpdateTime = project.lastRelease.ios.releaseDate;
         }
     }

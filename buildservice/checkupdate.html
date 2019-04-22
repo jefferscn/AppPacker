@@ -225,12 +225,12 @@
             document.location.href = "index.html";
         };
         function checkupdate() {
-            return new Promise(function (resovle, reject) {
+            return new Promise(function (resolve, reject) {
                 try {
                     cordova.getAppVersion.getPackageName()
                         .then(function (v) {
                             var platform = device.platform.toLowerCase();
-                            var checkUpdateUrl = 'http://192.168.43.191:3001/checkupdate/' + v;
+                            var checkUpdateUrl = 'https://dev.bokesoft.com/erpmobile/checkupdate/' + v;
                             function onSuccess(data) {
                                 var remote = data;
                                 var remoteVersion;
