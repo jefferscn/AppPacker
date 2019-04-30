@@ -34,7 +34,7 @@ const originDir = path.resolve(__dirname, '.');
 
 async function pack(cfg) {
 
-    console.log(cfg);
+    //console.log(cfg);
     const o = new Object();
     o.id = cfg.id;
     // o.baseSvn = cfg.baseSvn;
@@ -88,6 +88,7 @@ async function pack(cfg) {
     o.package = url.resolve(config.server.baseUrl, cfg.package.url);
     o.icon = url.resolve(config.server.baseUrl, cfg.project.icon.url);
     o.platform = cfg.platform;
+    o.release = cfg.release;
     o.appBuildType = cfg.debug ? 'debug' : 'release';
     o.appPackageName = cfg.project.appId;
     o.appVersion = cfg.version;
@@ -202,7 +203,7 @@ async function pack(cfg) {
             cfg.targetUrl = data.url;
             cfg.save();
         };
-        if (o.appBuildType === 'release') {
+        if (o.release) {
             await updateProject(cfg.projectId, o.appPlatform, {
                 url: cfg.targetUrl,
                 taskId: cfg.id,

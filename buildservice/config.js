@@ -7,9 +7,9 @@ export default {
         },
     },
     server: {
-        baseUrl: 'https://dev.bokesoft.com/erpmobile',
-        upload: 'https://dev.boeksoft.com/upload',
-        download: 'https://dev.bokesoft.com/download',
+        baseUrl: 'https://dev.bokesoft.com/erpmobile/',
+        upload: 'https://dev.bokesoft.com/erpmobile/upload/',
+        download: 'https://dev.bokesoft.com/erpmobile/download/',
         downloadIpaBase: 'https://dev.bokesoft.com/erpmobile/',
         checkUpdate: 'https://dev.bokesoft.com/erpmobile/checkupdate/',
     },
