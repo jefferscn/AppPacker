@@ -1,6 +1,6 @@
 ﻿import React , { PureComponent } from 'react';
 import { List, Datagrid, TextInput , Create , Edit , TabbedForm , Show ,ReferenceField , ShowButton ,
-    SimpleShowLayout , EditButton , FormTab , TextField , BooleanInput, UrlField, LongTextInput } from 'admin-on-rest/lib/mui';
+    SimpleShowLayout , EditButton , FormTab , TextField , BooleanInput, UrlField, LongTextInput , Responsive, SimpleList } from 'admin-on-rest/lib/mui';
 // import RichTextInput from 'aor-rich-text-input';
 import FileInput , { FilePreview, ImagePreview } from '../FileInput'
 import IOSInstallLink from '../IOSInstallLink';
@@ -12,6 +12,21 @@ import PluginInput from '../plugins';
 export class ProjectList extends PureComponent{
     render(){
         return (<List {...this.props}>
+        <Responsive
+            small={
+                    <SimpleList
+                        primaryText={record => record.name}
+                        secondaryTextLines={2}
+                        secondaryText={record => 
+                            <div>
+                                <div>IOS: {record.lastRelease&&record.lastRelease.ios?record.lastRelease.ios.version:''}</div>
+                                <div>Android: {record.lastRelease&&record.lastRelease.android?record.lastRelease.android.version:''}</div>
+                            </div>
+                        }
+                        tertiaryText={record => record.desc}
+                    />
+            }
+            medium={
             <Datagrid>
                 <ProjectName source="name" />
                 {/* <TextField source="name" /> */}
@@ -21,6 +36,8 @@ export class ProjectList extends PureComponent{
                 <EditButton />
                 <ShowButton/>
             </Datagrid>
+            }
+            />
         </List>);
     }
 }
@@ -164,7 +181,7 @@ export class ProjectEdit extends PureComponent{
 
 export class ProjectShow extends PureComponent{
     render(){
-        return (<Show {...this.props} hasEdit={false} actions={<div/>} hasList={false}>
+        return (<Show {...this.props} hasEdit={false} actions={<div/>} hasList={true}>
             <SimpleShowLayout>
                 <TextField label="项目" source="name" />
                 <TextField source="lastRelease.ios.version" label="IOS版本"/>
