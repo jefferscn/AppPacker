@@ -2,7 +2,7 @@ import React , { PureComponent } from 'react';
 import { required } from 'admin-on-rest';
 import { List, Datagrid, TextInput , Create , Edit , TabbedForm , SimpleForm , ReferenceInput ,
     SelectInput , DisabledInput , Show , SimpleShowLayout , DateField , ShowButton , FunctionField ,
-    EditButton , FormTab , TextField , UrlField , ReferenceField , BooleanInput, Filter } from 'admin-on-rest/lib/mui';
+    EditButton , FormTab , TextField , UrlField , ReferenceField , BooleanInput, Filter, Responsive, SimpleList } from 'admin-on-rest/lib/mui';
 import IOSInstallLink from '../IOSInstallLink';
 import baseUrl from '../../server/baseUrl';
 import FileInput , { FilePreview } from '../FileInput'
@@ -39,16 +39,33 @@ export class TaskList extends PureComponent{
             sort={{ field: 'dateOfCreate', order: 'DESC' }}
             filters={<TaskFilter />}
         >
-            <Datagrid>
-                <ProjectReferenceField label="项目" source="projectId" reference="projects">
-                </ProjectReferenceField>
-                <TextField source="platform" label="平台"/>
-                <TextField source="version" label="版本"/>
-                <LogField source="status.log" labelSource="status.code" label="状态" />
-                <DateField source="dateOfCreate" showTime label="创建日期" />
-                <ShowButton/>
-                <EditButton/>
-            </Datagrid>
+        <Responsive
+            small={
+                    <SimpleList
+                        primaryText={record => record.project.name}
+                        secondaryTextLines={2}
+                        secondaryText={record => 
+                            <div>
+                                <div>版本：{record.platform}:{record.version}</div>
+                                <div>创建日期：{new Date(record.dateOfCreate).toLocaleString()}</div>
+                            </div>
+                        }
+                        tertiaryText={record => record.status.code}
+                    />
+            }
+            medium={
+                <Datagrid>
+                    <ProjectReferenceField label="项目" source="projectId" reference="projects">
+                    </ProjectReferenceField>
+                    <TextField source="platform" label="平台"/>
+                    <TextField source="version" label="版本"/>
+                    <LogField source="status.log" labelSource="status.code" label="状态" />
+                    <DateField source="dateOfCreate" showTime label="创建日期" />
+                    <ShowButton/>
+                    <EditButton/>
+                </Datagrid>
+            }
+            />
         </List>);
     }
 }
@@ -92,7 +109,7 @@ export class TaskEdit extends PureComponent{
                     <BooleanInput source="release" label="是否发布" defaultValue={false} options={{disabled:true}}/>
                     <BooleanInput source="debug" label="是否调试版本" defaultValue={true} options={{disabled:true}} />
                     <DisabledInput source="status.code" label="状态" />
-                    <FunctionField label="发布包" render={record=><a href={record.package.url} style={{display:'flex', marginTop:5}}>{record.package.filename}</a>}></FunctionField>
+                    <FunctionField label="发布包" render={record=>!record.package?<div/>:<a href={record.package.url} style={{display:'flex', marginTop:5}}>{record.package.filename}</a>}></FunctionField>
                     <BooleanInput source="repackage" label="重新打包" defaultValue={false}/>
                 </SimpleForm>
             </Edit>
@@ -102,7 +119,7 @@ export class TaskEdit extends PureComponent{
 
 export class TaskShow extends PureComponent{
     render(){
-        return (<Show {...this.props} hasEdit={false} hasList={false}>
+        return (<Show {...this.props} hasEdit={false} hasList={true}>
             <SimpleShowLayout>
                 <TextField label="项目" source="project.name" />
                 <FunctionField label="平台" render={record => record.platform === 'ios'?'IOS':'Android'} />
