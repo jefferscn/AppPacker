@@ -58,12 +58,18 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
                     const icon = '    <platform name="ios">\n' +
                         '        <icon src="res/ios/icon-60@3x.png" width="180" height="180" />\n' +
                         '        <icon src="res/ios/icon-60.png" width="60" height="60" />\n' +
+                        '        <icon src="res/ios/icon-1024.png" width="1024" height="1024" />\n' +
                         '        <icon src="res/ios/icon-60@2x.png" width="120" height="120" />\n' +
                         '        <icon src="res/ios/icon-76.png" width="76" height="76" />\n' +
                         '        <icon src="res/ios/icon-76@2x.png" width="152" height="152" />\n' +
+                        '        <icon src="res/ios/icon-86@2x.png" width="172" height="172" />\n' +
+                        '        <icon src="res/ios/icon-98@2x.png" width="196" height="196" />\n' +
                         '        <icon src="res/ios/icon-20.png" width="20" height="20" />\n' +
+                        '        <icon src="res/ios/icon-24@2x.png" width="48" height="48" />\n' +
+                        '        <icon src="res/ios/icon-27.5@2x.png" width="55" height="55" />\n' +
                         '        <icon src="res/ios/icon-40.png" width="40" height="40" />\n' +
                         '        <icon src="res/ios/icon-40@2x.png" width="80" height="80" />\n' +
+                        '        <icon src="res/ios/icon-44@2x.png" width="88" height="88" />\n' +
                         '        <icon src="res/ios/icon-57.png" width="57" height="57" />\n' +
                         '        <icon src="res/ios/icon-57@2x.png" width="114" height="114" />\n' +
                         '        <icon src="res/ios/icon-72.png" width="72" height="72" />\n' +
