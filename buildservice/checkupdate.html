@@ -82,6 +82,7 @@
         }
 
         .dialog-btn {
+            display: block;
             height: 50px;
             border: none;
             background: none;
@@ -255,16 +256,19 @@
                                         }
                                     });
                             };
-                            fetch(checkUpdateUrl, {
-                                method: 'GET'
-                            })
-                            .then(function (res) {
+                            Promise.race(
+                                fetch(checkUpdateUrl, {
+                                    method: 'GET'
+                                }),
+                                new Promise(function (resolve, reject) {
+                                    setTimeout(() => reject(new Error('request timeout')), 2000)
+                                })
+                            ).then(function (res) {
                                 return res.json()
-                            })
-                            .then(onSuccess)
-                            .catch(function(err) {
-                                reject(ex);
-                            });
+                            }).then(onSuccess)
+                                .catch(function (err) {
+                                    reject(ex);
+                                });
                         });
                 } catch (ex) {
                     reject(ex);
@@ -273,6 +277,7 @@
         }
     </script>
 </head>
+
 <body>
     <div id='msg'>checking update...</div>
     <div id='ios'>
@@ -288,7 +293,7 @@
         </div>
     </div>
     <script>
-        document.addEventListener("deviceready", function() { 
+        document.addEventListener("deviceready", function () {
             checkupdate().then(gotoApp).catch(gotoApp);
         }, false);
     </script>
