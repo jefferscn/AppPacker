@@ -51,7 +51,9 @@ async function addPlugin(appPlugin) {
         }
         //添加
         if (pluginWithoutVariable.length !== 0) {
-            await addPluginReal(pluginWithoutVariable);
+            for(var j=0; j< pluginWithoutVariable.length; j++) {
+                await addPluginReal(pluginWithoutVariable[j]);
+            }
         }
     }
     // });

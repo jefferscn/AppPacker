@@ -25,6 +25,7 @@ async function checkUpdate(req, res) {
         if (project.lastRelease.ios && project.lastRelease.ios.version) {
             result.ios = {};
             result.ios.Url =`${baseUrl}${project.lastRelease.ios.url}`;
+            result.ios.Url = 'itms-services://?action=download-manifest&amp;url=' + encodeURIComponent(result.ios.Url);
             result.ios.Version = project.lastRelease.ios.version;
             result.ios.Link = `${baseUrl}#/tasks/${project.lastRelease.ios.taskId}/show`;
             result.ios.UpdateTime = project.lastRelease.ios.releaseDate;
