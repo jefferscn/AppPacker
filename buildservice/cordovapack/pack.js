@@ -70,7 +70,7 @@ async function pack(cfg) {
         // "phonegap-plugin-barcodescanner",
         // "ionic-plugin-keyboard",
         "cordova-plugin-network-information",
-        "cordova-plugin-dialogs",
+        // "cordova-plugin-dialogs",
         // "cordova-plugin-crosswalk-webview",
         "com-sarriaroman-photoviewer"];
     o.appPlugin = defaultPlugins;
