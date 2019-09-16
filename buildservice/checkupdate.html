@@ -256,14 +256,14 @@
                                         }
                                     });
                             };
-                            Promise.race(
+                            Promise.race([
                                 fetch(checkUpdateUrl, {
                                     method: 'GET'
                                 }),
                                 new Promise(function (resolve, reject) {
                                     setTimeout(() => reject(new Error('request timeout')), 2000)
                                 })
-                            ).then(function (res) {
+                            ]).then(function (res) {
                                 return res.json()
                             }).then(onSuccess)
                                 .catch(function (err) {

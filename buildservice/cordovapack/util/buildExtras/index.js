@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import path from 'path';
 
 function buildExtras(){
     const lintOptions =
@@ -13,8 +14,21 @@ function buildExtras(){
         fs.writeFile('platforms/android/build-extras.gradle', lintOptions, function (err, data) {
             if (err) {
                 reject(new Error(err))
+                return;
             }
-            resolve(data);
+            //修改SystemWebViewClient.java
+            //platforms/android/CordovaLib/src/org/apache/cordova/engine/SystemWebViewClient.java
+            //onReceivedSslError
+            fs.copy(path.join(__dirname, 'SystemWebViewClient.java'),
+                'platforms/android/CordovaLib/src/org/apache/cordova/engine/SystemWebViewClient.java',
+                function(err) {
+                    if(err) {
+                        reject(new Error(err));
+                        return;
+                    }
+                    resolve();
+                }
+            );
         });
     });
 
