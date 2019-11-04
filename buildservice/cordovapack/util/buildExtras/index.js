@@ -33,10 +33,10 @@ function buildExtras() {
     });
 };
 
-export function buildIOSExtra() {
+export function buildIOSExtra(o) {
     return new Promise(function (resolve, reject) {
         fs.copy(path.join(__dirname, 'AppDelegate.m'),
-            'platforms/ios/test/Classes/AppDelegate.m',
+            `platforms/ios/${o.appName}/Classes/AppDelegate.m`,
             function (err) {
                 if (err) {
                     reject(new Error(err));

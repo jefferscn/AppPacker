@@ -172,7 +172,7 @@ async function pack(cfg) {
         }
         //修改app delegate，使ios支持cookie
         if(o.appPlatform === 'ios') {
-            await buildIOSExtra();
+            await buildIOSExtra(o);
         }
         await addKey(o.appIosMp);
         logger.info('cordova add licence key OK');
