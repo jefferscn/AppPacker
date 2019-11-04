@@ -3,7 +3,7 @@ import emptyDir from './emptyDir';
 import buildApp from './buildApp';
 import releaseFile from './releaseFile';
 import addKey from './addKey';
-import buildExtras from './buildExtras';
+import buildExtras, { buildIOSExtra } from './buildExtras';
 import addPlugin from './addPlugin';
 import preparePlatform from './preparePlatform';
 import processCode from './processCode';
@@ -34,4 +34,5 @@ export {
     addBaiduMapScript,
     Logger,
     upload,
+    buildIOSExtra,
 }

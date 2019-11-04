@@ -27,6 +27,7 @@ import {
     addBaiduMapScript,
     Logger,
     upload,
+    buildIOSExtra,
 } from './util/';
 
 const workingDir = path.resolve(__dirname, 'working');
@@ -168,6 +169,10 @@ async function pack(cfg) {
         logger.info('cordova add plugins OK');
         if (o.appPlatform === 'android') {
             await buildExtras(); // android
+        }
+        //修改app delegate，使ios支持cookie
+        if(o.appPlatform === 'ios') {
+            await buildIOSExtra();
         }
         await addKey(o.appIosMp);
         logger.info('cordova add licence key OK');

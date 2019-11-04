@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 
-function buildExtras(){
+function buildExtras() {
     const lintOptions =
         "android {\n" +
         "    lintOptions {\n" +
@@ -21,8 +21,8 @@ function buildExtras(){
             //onReceivedSslError
             fs.copy(path.join(__dirname, 'SystemWebViewClient.java'),
                 'platforms/android/CordovaLib/src/org/apache/cordova/engine/SystemWebViewClient.java',
-                function(err) {
-                    if(err) {
+                function (err) {
+                    if (err) {
                         reject(new Error(err));
                         return;
                     }
@@ -31,6 +31,21 @@ function buildExtras(){
             );
         });
     });
-
 };
+
+export function buildIOSExtra() {
+    return new Promise(function (resolve, reject) {
+        fs.copy(path.join(__dirname, 'AppDelegate.m'),
+            'platforms/ios/test/Classes/AppDelegate.m',
+            function (err) {
+                if (err) {
+                    reject(new Error(err));
+                    return;
+                }
+                resolve();
+            }
+        );
+    });
+}
+
 export default buildExtras;
