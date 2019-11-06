@@ -25,6 +25,7 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
         conf.addElement('preference', { 'name': "SplashScreenDelay", 'value': '0' });
         conf.addElement('allow-navigation', { 'href': '*' });
         //防止Android6.0（API 23）权限出现问题,强制API为22
+        conf.addElement('preference', { 'name': 'android-minSdkVersion', 'value': '17'});
         conf.addElement('preference', { 'name': 'android-targetSdkVersion', 'value': androidTargetSdkVersion || '22' });
         // cordova-ios 版本低于4.5.1不支持XCode 9.4.1 
         conf.addElement('engine', { 'name': 'ios', 'spec': '^4.5.1' });
