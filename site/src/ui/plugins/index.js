@@ -16,6 +16,12 @@ const plugins = [
         name: '百度推送(非官方)',
     },
     {
+        url: 'jpush-phonegap-plugin',
+        name: '极光推送',
+        hasArgs: true,
+        args: ['APP_KEY']
+    },
+    {
         url: 'cordova-plugin-geolocation-baidu',
         name: 'cordova-plugin-geolocation-baidu(百度地图定位)',
         platform: 'ios',

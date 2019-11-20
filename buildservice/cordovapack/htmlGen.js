@@ -23,6 +23,3 @@ function htmlGen(plistUrl,appName,pageUrl){
     })
 };
 module.exports = htmlGen;
-
-//var a = "https://dev.bokesoft.com/yigomobile/public/ios/1463987795000/index.html";
-//htmlGen('https://dev.bokesoft.com/yigomobile/public/ios/1463979824000/manifest.plist','车掌柜',a);
