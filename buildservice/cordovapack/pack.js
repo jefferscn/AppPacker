@@ -78,6 +78,9 @@ async function pack(cfg) {
     if (cfg.project.plugins) {
         const plugins = cfg.project.plugins.filter(v => v && (!v.platform || v.platform == o.appPlatform));
         for (let i = 0; i < plugins.length; i++) {
+            if(plugins[i].url.startsWith('jpush-phonegap-plugin')) {
+                o.appPlugin.push('cordova-plugin-jcore');
+            }
             o.appPlugin.push(plugins[i].url);
         }
     }

@@ -34,6 +34,11 @@ async function addPlugin(appPlugin) {
                 }
             }
         }
+        if (pluginWithoutVariable.length !== 0) {
+            for(var j=0; j< pluginWithoutVariable.length; j++) {
+                await addPluginReal(pluginWithoutVariable[j]);
+            }
+        }
         if (pluginWithVariable.length !== 0) {
             for (var i = 0; i < pluginWithVariable.length; i++) {
                 //拆分plugin 和 variable
@@ -47,12 +52,6 @@ async function addPlugin(appPlugin) {
                     variable.cli_variables[v.split('=')[0]] = v.split('=')[1];
                 });
                 await addPluginReal(pluginName, variable);
-            }
-        }
-        //添加
-        if (pluginWithoutVariable.length !== 0) {
-            for(var j=0; j< pluginWithoutVariable.length; j++) {
-                await addPluginReal(pluginWithoutVariable[j]);
             }
         }
     }
