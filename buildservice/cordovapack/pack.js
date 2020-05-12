@@ -71,6 +71,7 @@ async function pack(cfg) {
         // "phonegap-plugin-barcodescanner",
         // "ionic-plugin-keyboard",
         "cordova-plugin-network-information",
+        "cordova-plugin-statusbar",
         // "cordova-plugin-dialogs",
         // "cordova-plugin-crosswalk-webview",
         "com-sarriaroman-photoviewer"];

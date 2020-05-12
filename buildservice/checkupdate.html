@@ -79,9 +79,12 @@
         .dialog-opera {
             width: 100%;
             border-top: 1px solid #ddd;
+            display: flex;
+            flex-direction: row;
         }
 
         .dialog-btn {
+            flex: 1;
             display: block;
             height: 50px;
             border: none;
@@ -153,8 +156,16 @@
                 ft.download(url, fileURL, function (entry) {
                     cordova.plugins.fileOpener2.open(
                         entry.toURL(),
-                        'application/vnd.android.package-archive'
-                    );
+                        'application/vnd.android.package-archive', {
+                        error: function (da) {
+                            console.log(da);
+                            reject();
+
+                        },
+                        success: function (data) {
+                            resolve();
+                        }
+                    });
                     resolve();
                 }, function (err) {
                     reject(err);
@@ -250,7 +261,11 @@
                                         var versionCompResult = versionCompare(remoteVersion, version);
                                         var needUpdate = versionCompResult > 0;
                                         if (needUpdate) {
-                                            updateApp(platform, platformData.Url);
+                                            updateApp(platform, platformData.Url).then(() => {
+                                                resolve();
+                                            }).catch((error) => {
+                                                reject(error);
+                                            });
                                         } else {
                                             resolve();
                                         }
@@ -288,6 +303,7 @@
                 </div>
                 <div class="dialog-opera">
                     <a id="ioslink" href="" class="dialog-btn">更新</a>
+                    <a id="ioscancel" href="javascript:void(0)" onclick="gotoApp()" class="dialog-btn">取消</a>
                 </div>
             </div>
         </div>
