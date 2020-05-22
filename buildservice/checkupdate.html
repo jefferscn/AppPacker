@@ -135,7 +135,7 @@
                     var platform = device.platform.toLowerCase();
                     fs.getFile('android.apk', { create: true }, function (fileEntry) {
                         download(fileEntry, url).catch(reject);
-                        resolve();
+                        // resolve();
                     }, reject);
                 }, reject)
             })
