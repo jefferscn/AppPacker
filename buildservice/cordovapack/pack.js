@@ -144,6 +144,7 @@ async function pack(cfg) {
         console.log(__dirname);
         if (o.appPlatform == 'ios') {
             await createIcons(o.appPlatform, o.iconPath, `${o.appName}/res/${o.appPlatform}/`);
+            fs.createReadStream(path.resolve(__dirname, '1125_2436.png')).pipe(fs.createWriteStream(path.resolve(`${o.resPath}/${o.appPlatform}`, '1125_2436.png')));
         }
         logger.info('download icon OK');
         await processCode(o.configXML, o.appVersion, o.appPackageName, o.appName, o.appDescription, o.appIcon, null, o.appPlatform, o.appBuildType);
