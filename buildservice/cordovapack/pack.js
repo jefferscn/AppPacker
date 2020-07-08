@@ -102,7 +102,7 @@ async function pack(cfg) {
         if (o.appBuildType==='release') {
             o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision.url);
         } else {
-            o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision_dev.url);
+            o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvisionDev.url);
         }
         o.certificateUrl = url.resolve(config.server.baseUrl, cfg.project.ios.certificate.file.url);
         o.certificatePwd = cfg.project.ios.certificate.password;
