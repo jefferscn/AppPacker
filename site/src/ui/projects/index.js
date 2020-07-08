@@ -50,7 +50,7 @@ export class ProjectCreate extends PureComponent{
                         <FileInput url="./upload" source="ios.mobileProvision" placeholder="上传IOS打包用签名文件(正式)">
                             <FilePreview/>
                         </FileInput>
-                        <FileInput url="./upload" source="ios.mobileProvision_dev" placeholder="上传IOS打包用签名文件(开发)">
+                        <FileInput url="./upload" source="ios.mobileProvisionDev" placeholder="上传IOS打包用签名文件(开发)">
                             <FilePreview/>
                         </FileInput>
                     </FormTab>
@@ -101,6 +101,9 @@ export class ProjectEdit extends PureComponent{
                         </FileInput>
                         <TextInput label="证书密码" source="ios.certificate.password" type="password"/>
                         <FileInput url="./upload" source="ios.mobileProvision" placeholder="上传IOS打包用签名文件">
+                            <FilePreview/>
+                        </FileInput>
+                        <FileInput url="./upload" source="ios.mobileProvisionDev" placeholder="上传IOS打包用签名文件(开发)">
                             <FilePreview/>
                         </FileInput>
                     </FormTab>
