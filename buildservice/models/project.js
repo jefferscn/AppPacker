@@ -19,6 +19,11 @@ const projectSchema = new mongoose.Schema({
             url:String,
             id: String,
         },
+        mobileProvision_dev: {
+            filename: String,
+            url:String,
+            id: String,
+        },
         certificate:{
             file:{
                 filename: String,

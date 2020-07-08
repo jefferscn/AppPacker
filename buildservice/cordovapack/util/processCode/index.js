@@ -53,7 +53,7 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
                 var splash = '<platform name="ios">\n' +
                     '<preference name="FadeSplashScreen" value="false"/>' +
                     '<preference name="FadeSplashScreenDuration" value="0"/>\n' +
-                    '<splash src="../../res/ios/1125_2436.png" width="1125" height="2436"/>' +
+                    '<splash src="res/ios/1125_2436.png" width="1125" height="2436"/>' +
                     '</platform>\n';
                 $('widget').append(splash);
                 if (appIcon) {

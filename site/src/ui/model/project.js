@@ -18,7 +18,12 @@ const projectSchema = new mongoose.Schema({
             filename: String,
             url: String,
             id: String,
-        },
+        },        
+        mobileProvision_dev: {
+            filename: String,
+            url: String,
+            id: String,
+        },        
         certificate: {
             file: {
                 filename: String,

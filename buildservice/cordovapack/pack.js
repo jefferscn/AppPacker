@@ -79,7 +79,7 @@ async function pack(cfg) {
     if (cfg.project.plugins) {
         const plugins = cfg.project.plugins.filter(v => v && (!v.platform || v.platform == o.appPlatform));
         for (let i = 0; i < plugins.length; i++) {
-            if(plugins[i].url.startsWith('jpush-phonegap-plugin')) {
+            if (plugins[i].url.startsWith('jpush-phonegap-plugin')) {
                 o.appPlugin.push('cordova-plugin-jcore');
             }
             o.appPlugin.push(plugins[i].url);
@@ -99,7 +99,11 @@ async function pack(cfg) {
     o.appVersion = cfg.version;
     o.appIosMp = {};
     if (o.appPlatform == 'ios') {
-        o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision.url);
+        if (o.appBuildType==='release') {
+            o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision.url);
+        } else {
+            o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision_dev.url);
+        }
         o.certificateUrl = url.resolve(config.server.baseUrl, cfg.project.ios.certificate.file.url);
         o.certificatePwd = cfg.project.ios.certificate.password;
         o.appPlugin.push('org.frd49.cordova.exitapp');
@@ -176,7 +180,7 @@ async function pack(cfg) {
             await buildExtras(); // android
         }
         //修改app delegate，使ios支持cookie
-        if(o.appPlatform === 'ios') {
+        if (o.appPlatform === 'ios') {
             await buildIOSExtra(o);
         }
         await addKey(o.appIosMp);
