@@ -5,12 +5,8 @@ function buildApp(platform, appBuildType) {
     var options = {
         "slilent": false,
         "device": true,
+        "release": buildType,
     };
-    if(buildType) {
-        options.release = true;
-    } else {
-        options.debug = true;
-    }
     return new Promise(function (resolve, reject) {
         cordova.build({
             platforms: [platform],

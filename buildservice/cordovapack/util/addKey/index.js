@@ -22,7 +22,7 @@ function addKey(appIosMp) {
             "ios": {
                 "debug": {
                     "codeSignIdentitiy": "iPhone Development",
-                    "packageType": "enterprise",
+                    "packageType": "development",
                     "developmentTeam": "5C83KHGVSN",
                     "provisioningProfile": "2538e3a2-e134-4968-9d67-6f3220027cc4"
                 },
