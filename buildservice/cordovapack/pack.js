@@ -98,16 +98,16 @@ async function pack(cfg) {
     o.appPackageName = cfg.project.appId;
     o.appVersion = cfg.version;
     o.appIosMp = {};
-    if (o.appPlatform == 'ios') {
-        if (o.appBuildType==='release') {
-            o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision.url);
-        } else {
-            o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvisionDev.url);
-        }
-        o.certificateUrl = url.resolve(config.server.baseUrl, cfg.project.ios.certificate.file.url);
-        o.certificatePwd = cfg.project.ios.certificate.password;
-        o.appPlugin.push('org.frd49.cordova.exitapp');
-    }
+    // if (o.appPlatform == 'ios') {
+    //     if (o.appBuildType==='release') {
+    //         o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision.url);
+    //     } else {
+    //         o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvisionDev.url);
+    //     }
+    //     o.certificateUrl = url.resolve(config.server.baseUrl, cfg.project.ios.certificate.file.url);
+    //     o.certificatePwd = cfg.project.ios.certificate.password;
+    //     o.appPlugin.push('org.frd49.cordova.exitapp');
+    // }
     // o.yigoVersion = cfg.yigoVersion;
 
     // o.apkLink = cfg.apkDownloadLink;
@@ -123,6 +123,23 @@ async function pack(cfg) {
         await emptyDir(workingDir);
         process.chdir(workingDir);
         logger.info('pack enviroment initialize success');
+
+        if (o.appPlatform == 'ios') {
+            if (o.appBuildType==='release') {
+                if(!cfg.project.ios.mobileProvision) {
+                    throw "mobileProvision missing!";
+                }
+                o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision.url);
+            } else {
+                if(!cfg.project.ios.mobileProvisionDev) {
+                    throw "mobileProvision missing!";
+                }
+                o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvisionDev.url);
+            }
+            o.certificateUrl = url.resolve(config.server.baseUrl, cfg.project.ios.certificate.file.url);
+            o.certificatePwd = cfg.project.ios.certificate.password;
+            o.appPlugin.push('org.frd49.cordova.exitapp');
+        }
 
         if (o.appPlatform == 'ios') {
 
