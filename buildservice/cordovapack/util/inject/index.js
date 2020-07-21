@@ -4,7 +4,11 @@ function buildInject(project, buildType, path) {
     var injectContent = "window.projectCfg={\r\n";
     injectContent += `sessionKey:'${project.appId}',`;
     if (project.settings && project.settings[buildType].serverPath) {
-        injectContent += `serverpath:'${project.settings[buildType].serverPath}',`;
+        injectContent += `serverPath:'${project.settings[buildType].serverPath}',`;
+    }
+    if(project.settings) {
+        var v = project.settings.jpush? 'true': 'false';
+        injectContent += `jpush:${v},`;
     }
     injectContent += '}';
     return new Promise(function (resolve, reject) {

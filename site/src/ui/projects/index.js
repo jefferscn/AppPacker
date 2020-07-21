@@ -96,6 +96,11 @@ export class ProjectEdit extends PureComponent{
                             <ImagePreview/>
                         </FileInput>
                     </FormTab>
+                    <FormTab label="项目设置">
+                        <BooleanInput label="是否支持推送" source="settings.jpush" />
+                        <TextInput label="测试服务器地址" source="settings.release.serverPath" />
+                        <TextInput label="正式服务器地址" source="settings.debug.serverPath"/>
+                    </FormTab>
                     <FormTab label="IOS">
                         <TextInput label="项目svn地址" source="ios.svn.url" />
                         <TextInput label="项目svn用户" source="ios.svn.userName" />
