@@ -1,6 +1,6 @@
 ﻿import React , { PureComponent } from 'react';
 import { List, Datagrid, TextInput , Create , Edit , TabbedForm , Show ,ReferenceField , ShowButton ,
-    SimpleShowLayout , EditButton , FormTab , TextField , UrlField } from 'admin-on-rest/lib/mui';
+    SimpleShowLayout , EditButton , FormTab , TextField , BooleanInput, UrlField } from 'admin-on-rest/lib/mui';
 // import RichTextInput from 'aor-rich-text-input';
 import FileInput , { FilePreview, ImagePreview } from '../FileInput'
 import IOSInstallLink from '../IOSInstallLink';
@@ -37,6 +37,11 @@ export class ProjectCreate extends PureComponent{
                         <FileInput url="./upload" source="icon" placeholder="点击上传图标">
                             <ImagePreview/>
                         </FileInput>
+                    </FormTab>
+                    <FormTab label="项目设置">
+                        <BooleanInput label="是否支持推送" source="settings.jpush" />
+                        <TextInput label="测试服务器地址" source="settings.release.serverPath" />
+                        <TextInput label="正式服务器地址" source="settings.debug.serverPath"/>
                     </FormTab>
                     <FormTab label="IOS">
                         <TextInput label="项目svn地址" source="ios.svn.url" />

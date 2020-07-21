@@ -28,6 +28,7 @@ import {
     Logger,
     upload,
     buildIOSExtra,
+    buildInject,
 } from './util/';
 
 const workingDir = path.resolve(__dirname, 'working');
@@ -142,7 +143,6 @@ async function pack(cfg) {
         }
 
         if (o.appPlatform == 'ios') {
-
             logger.info('Install p12 begin ');
             await installCertificate(o.certificateUrl, o.certificatePwd);
             logger.info('Install p12 success.');
@@ -177,6 +177,8 @@ async function pack(cfg) {
         await download(o.package, file);
         await extract(file, o.wwwPath);
         logger.info('unzip www OK');
+        buildInject(cfg.project, o.appBuildType, `${o.wwwPath}/inject.js`);
+        logger.info('build inejctjs');
         fs.createReadStream(path.resolve(__dirname, 'serverpath.html')).pipe(fs.createWriteStream(path.resolve(o.wwwPath, 'serverpath.html')));
         logger.info('copy serverpath.html OK');
         fs.createReadStream(path.resolve(__dirname, 'checkupdate.html')).pipe(fs.createWriteStream(path.resolve(o.wwwPath, 'checkupdate.html')));

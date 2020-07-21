@@ -8,6 +8,15 @@ const projectSchema = new mongoose.Schema({
         url:String,
         id: String,
     },
+    settings: {
+        jpush: Boolean,
+        release: {
+            serverPath: String,
+        },
+        debug: {
+            serverPath: String,
+        }
+    },
     ios: {
         svn: {
             url: String,

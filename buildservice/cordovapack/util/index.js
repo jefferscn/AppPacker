@@ -15,6 +15,7 @@ import preparePack from './preparePack';
 import addBaiduMapScript from './addBaiduMapScript';
 import Logger from './logger';
 import upload from './upload';
+import buildInject from './inject';
 
 export {
     addPlatform,
@@ -35,4 +36,5 @@ export {
     Logger,
     upload,
     buildIOSExtra,
+    buildInject,
 }
