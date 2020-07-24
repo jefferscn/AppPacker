@@ -23,6 +23,7 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
         conf.addElement('preference', { 'name': 'DisallowOverscroll', 'value': 'true' });
         conf.addElement('preference', { 'name': 'Orientation', 'value': 'portrait' });
         conf.addElement('preference', { 'name': "SplashScreenDelay", 'value': '0' });
+        conf.addElement('preference', { 'name': "fullscreen", 'value': 'false' });
         conf.addElement('allow-navigation', { 'href': '*' });
         //防止Android6.0（API 23）权限出现问题,强制API为22
         conf.addElement('preference', { 'name': 'android-minSdkVersion', 'value': '17'});
