@@ -70,7 +70,7 @@ async function pack(cfg) {
         "cordova-plugin-whitelist",
         // "cordova-plugin-x-socialsharing",
         // "phonegap-plugin-barcodescanner",
-        // "ionic-plugin-keyboard",
+        "ionic-plugin-keyboard",
         "cordova-plugin-network-information",
         "cordova-plugin-statusbar",
         // "cordova-plugin-dialogs",
@@ -126,13 +126,13 @@ async function pack(cfg) {
         logger.info('pack enviroment initialize success');
 
         if (o.appPlatform == 'ios') {
-            if (o.appBuildType==='release') {
-                if(!cfg.project.ios.mobileProvision) {
+            if (o.appBuildType === 'release') {
+                if (!cfg.project.ios.mobileProvision) {
                     throw "mobileProvision missing!";
                 }
                 o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvision.url);
             } else {
-                if(!cfg.project.ios.mobileProvisionDev) {
+                if (!cfg.project.ios.mobileProvisionDev) {
                     throw "mobileProvision missing!";
                 }
                 o.mobileProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.mobileProvisionDev.url);
@@ -143,14 +143,18 @@ async function pack(cfg) {
         }
 
         if (o.appPlatform == 'ios') {
-            logger.info('Install p12 begin ');
-            await installCertificate(o.certificateUrl, o.certificatePwd);
-            logger.info('Install p12 success.');
+            try {
+                logger.info('Install p12 begin ');
+                await installCertificate(o.certificateUrl, o.certificatePwd);
+                logger.info('Install p12 success.');
 
-            logger.info('Install mobile provision begin');
-            const mobileProvision = await installMobileProvision(o.mobileProvisionUrl);
-            logger.info('Install mobile provision success.');
-            o.appIosMp = mobileProvision;
+                logger.info('Install mobile provision begin');
+                const mobileProvision = await installMobileProvision(o.mobileProvisionUrl);
+                logger.info('Install mobile provision success.');
+                o.appIosMp = mobileProvision;
+            } catch (ex) {
+
+            }
         }
 
         logger.info('create cordova begin');
