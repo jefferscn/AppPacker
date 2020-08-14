@@ -10,6 +10,7 @@ const projectSchema = new mongoose.Schema({
     },
     settings: {
         jpush: Boolean,
+        autoUpdate : Boolean,
         release: {
             serverPath: String,
         },
