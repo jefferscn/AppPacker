@@ -16,6 +16,7 @@ function buildExtras() {
                 reject(new Error(err))
                 return;
             }
+
             //修改SystemWebViewClient.java
             //platforms/android/CordovaLib/src/org/apache/cordova/engine/SystemWebViewClient.java
             //onReceivedSslError
@@ -25,6 +26,13 @@ function buildExtras() {
                     if (err) {
                         reject(new Error(err));
                         return;
+                    }
+                    try {
+                        const config = fs.readFileSync('platforms/android/AndroidManifest.xml', 'utf-8');
+                        const result = config.replace(/(android:windowSoftInputMode=").*?(")/, "$1adjustPan$2");
+                        fs.writeFileSync('platforms/android/AndroidManifest.xml', result, 'utf-8');
+                    } catch (ex) {
+                        resject(ex);
                     }
                     resolve();
                 }

@@ -172,7 +172,7 @@ async function pack(cfg) {
             fs.createReadStream(path.resolve(__dirname, '1125_2436.png')).pipe(fs.createWriteStream(path.resolve(`${o.resPath}/${o.appPlatform}`, '1125_2436.png')));
         }
         logger.info('download icon OK');
-        await processCode(o.configXML, o.appVersion, o.appPackageName, o.appName, o.appDescription, o.appIcon, null, o.appPlatform, o.appBuildType);
+        await processCode(o.configXML, o.appVersion, o.appPackageName, o.appName, o.appDescription, o.appIcon, null, o.appPlatform, o.release);
         logger.info('process config.xml success');
 
         // 解压缩任务中的压缩包
