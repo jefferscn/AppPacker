@@ -24,7 +24,6 @@
 //  Created by ___FULLUSERNAME___ on ___DATE___.
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
 //
-
 #import "AppDelegate.h"
 #import "MainViewController.h"
 
@@ -32,22 +31,34 @@
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-    NSData *cookiesData = [[NSUserDefaults standardUserDefaults] objectForKey:@"xapp"];
+    NSMutableArray *cookiesData = [[NSUserDefaults standardUserDefaults] valueForKey:@"xapp"];
     if (cookiesData) {
-        NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesData];
-        for (NSHTTPCookie *cookie in cookies)
-        { [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie]; }
-
+        for (NSMutableDictionary *cookie in cookiesData)
+        {
+            NSHTTPCookie *c = [NSHTTPCookie cookieWithProperties:cookie];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:c];
+        }
     }
     self.viewController = [[MainViewController alloc] init];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application{
-    NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject:[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]];
-    [[NSUserDefaults standardUserDefaults] setObject:cookiesData
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSMutableArray *dt = [NSMutableArray array];
+    for(NSHTTPCookie *cookie in cookies) {
+        NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+        [cookieProperties setValue:cookie.name forKey:NSHTTPCookieName];
+        [cookieProperties setValue:cookie.domain forKey:NSHTTPCookieDomain];
+        [cookieProperties setValue:cookie.path forKey:NSHTTPCookiePath];
+        [cookieProperties setValue:cookie.value forKey:NSHTTPCookieValue];
+        [cookieProperties setObject:@"true" forKey:@"HttpOnly"];
+        [cookieProperties setValue:cookie.expiresDate forKey: NSHTTPCookieExpires];
+        [dt addObject:cookieProperties];
+    }
+    [[NSUserDefaults standardUserDefaults] setValue:dt
                                               forKey:@"xapp"];
-
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
