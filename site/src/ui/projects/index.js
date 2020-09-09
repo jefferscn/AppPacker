@@ -1,6 +1,6 @@
 ﻿import React , { PureComponent } from 'react';
 import { List, Datagrid, TextInput , Create , Edit , TabbedForm , Show ,ReferenceField , ShowButton ,
-    SimpleShowLayout , EditButton , FormTab , TextField , BooleanInput, UrlField } from 'admin-on-rest/lib/mui';
+    SimpleShowLayout , EditButton , FormTab , TextField , BooleanInput, UrlField, LongTextInput } from 'admin-on-rest/lib/mui';
 // import RichTextInput from 'aor-rich-text-input';
 import FileInput , { FilePreview, ImagePreview } from '../FileInput'
 import IOSInstallLink from '../IOSInstallLink';
@@ -75,6 +75,12 @@ export class ProjectCreate extends PureComponent{
                         <TextInput source="wechat.appId" label="appID" />
                         <TextInput source="wechat.appsecret" label="appsecret"  />
                     </FormTab>
+                    <FormTab label="支付宝">
+                        <TextInput source="alipay.appId" label="appID" />
+                        <LongTextInput source="alipay.appPrivateKey" label="privateKey" />
+                        <TextInput source="alipay.encryptKey" label="encryptKey" />
+                        <TextInput source="alipay.taxNo" label="税号" />
+                    </FormTab>
                     <FormTab label="插件">
                         <PluginInput source="plugins" />
                     </FormTab>
@@ -133,6 +139,12 @@ export class ProjectEdit extends PureComponent{
                     <FormTab label="微信">
                         <TextInput source="wechat.appId" label="appID" />
                         <TextInput source="wechat.appsecret" label="appsecret"  />
+                    </FormTab>
+                    <FormTab label="支付宝">
+                        <TextInput source="alipay.appId" label="appID" />
+                        <LongTextInput source="alipay.appPrivateKey" label="privateKey" />
+                        <TextInput source="alipay.encryptKey" label="encryptKey" />
+                        <TextInput source="alipay.taxNo" label="税号" />
                     </FormTab>
                     <FormTab label="插件">
                         <PluginInput source="plugins" />

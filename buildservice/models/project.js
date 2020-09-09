@@ -66,6 +66,12 @@ const projectSchema = new mongoose.Schema({
         appsecret: String,
         nonceStr: String,
     },
+    alipay: {
+        appId: String,
+        appPrivateKey: String,
+        encryptKey: String,
+        taxNo: String,
+    },
     plugins: [{
         platform:String,
         url:String

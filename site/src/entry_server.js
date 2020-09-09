@@ -11,6 +11,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import checkUpdate from './server/checkupdate';
 import wechatsign from './server/wechat';
+import alipay from './server/alipay';
 import cors from 'cors';
 import webpackDevConfig from '../webpack.config';
 import Config from './config';
@@ -181,6 +182,7 @@ app.get('/', function (req, res) {
 
 checkUpdate(app);
 wechatsign(app);
+alipay(app);
 
 app.use(function (error, req, res, next) {
     console.log(error);

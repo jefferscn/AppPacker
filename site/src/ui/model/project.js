@@ -64,6 +64,13 @@ const projectSchema = new mongoose.Schema({
     wechat: {
         appId: String,
         appsecret: String,
+        nonceStr: String,
+    },
+    alipay: {
+        appId: String,
+        appPrivateKey: String,
+        encryptKey: String,
+        taxNo: String,
     },
     plugins: [{
         platform:String,
