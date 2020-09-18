@@ -120,6 +120,7 @@ async function pack(cfg) {
     const logFile = `log/${cfg.id}.log`;
     const logger = Logger(logFile);
 
+    const evalEnv = {};
     o.build = async function () {
         logger.info('pack enviroment initializing......');
         // await preparePack();
@@ -153,6 +154,7 @@ async function pack(cfg) {
                 logger.info('Install mobile provision begin');
                 const mobileProvision = await installMobileProvision(o.mobileProvisionUrl);
                 logger.info('Install mobile provision success.');
+                evalEnv.provisionUUID = mobileProvision.UUID;
                 o.appIosMp = mobileProvision;
             } catch (ex) {
 
@@ -199,7 +201,7 @@ async function pack(cfg) {
         process.chdir(o.appName);
         await addPlatform(o.appPlatform);
         logger.info('cordova add platform OK');
-        await addPlugin(o.appPlugin);
+        await addPlugin(o.appPlugin, evalEnv);
         logger.info('cordova add plugins OK');
         if (o.appPlatform === 'android') {
             await buildExtras(); // android

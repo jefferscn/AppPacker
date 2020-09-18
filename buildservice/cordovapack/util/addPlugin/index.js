@@ -49,7 +49,7 @@ async function addPlugin(appPlugin) {
                 var variable = {};
                 variable.cli_variables = {};
                 pluginVariable.split('&').forEach(function (v) {
-                    variable.cli_variables[v.split('=')[0]] = v.split('=')[1];
+                    variable.cli_variables[v.split('=')[0]] = eval('`' + v.split('=')[1] + '`');
                 });
                 await addPluginReal(pluginName, variable);
             }
