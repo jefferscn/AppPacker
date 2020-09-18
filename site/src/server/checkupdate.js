@@ -8,7 +8,6 @@ async function checkUpdate(req, res) {
     const project = await Project.findOne({
         appId: projectId,
     });
-    console.log(project);
     if (!project) {
         res.state(404).end();
         return;

@@ -3,7 +3,10 @@ import Alipay from 'alipay-sdk';
 
 function buildProjectAlipay(project) {
     return new Alipay({
-        ...project.alipay,
+        appId: project.alipay.appId,
+        privateKey: project.alipay.appPrivateKey,
+        encryptKey: project.alipay.encryptKey,
+        //gateway: 'https://openapi.alipaydev.com/gateway.do',
     });
 }
 export default (app) => {
@@ -22,7 +25,8 @@ export default (app) => {
     const AlipayAuthRecord = mongoose.model('AlipayAuth', AlipayAuthSchema);
     async function authCallback(req, res) {//这里需要返回一个页面
         const projectId = req.params.projectId;
-        const { auth_code, app_id, scope, state } = req.body;
+        const { auth_code, app_id, scope, state } = req.query;
+        console.log(req.query);
         const project = await Project.findOne({
             appId: projectId,
         });
@@ -36,16 +40,18 @@ export default (app) => {
             grantType: 'authorization_code',
             code: auth_code,
         });
-        const accessToken = result.access_token;
-        const userId = result.user_id
+        console.log(result);
+        const accessToken = result.accessToken;
+        const userId = result.userId
         //对于授权，一个用户只能授权一个支付宝账号
         //所以packageKey+scope+state+userId是唯一的
-        AlipayAuthRecord.deleteMany({
+        const tmp = await AlipayAuthRecord.deleteMany({
             packageKey: project.appId,
             scope: scope,
             state: state,
             userId: userId,
         });
+        console.log(tmp);
         const aar = new AlipayAuthRecord();
         aar.packageKey = project.appId;
         aar.appId = app_id;
@@ -53,9 +59,9 @@ export default (app) => {
         aar.state = state;
         aar.accessToken = accessToken;
         aar.userId = userId;
-        aar.refreshToken = result.refresh_token;
-        aar.tokenExpireTime = new Date(now + result.expires_in);
-        aar.refreshTokenExpireTie = new Date(now + result.re_expires_in);
+        aar.refreshToken = result.refreshToken;
+        aar.tokenExpireTime = new Date(now + result.expiresIn);
+        aar.refreshTokenExpireTie = new Date(now + result.reExpiresIn);
         await aar.save();
         res.json({
             result: true,
@@ -72,6 +78,7 @@ export default (app) => {
             res.state(404).end();
             return;
         }
+        console.log(req.body);
         const authRecord = await AlipayAuthRecord.findOne({
             packageKey: project.appId,
             state: yigoUserId,
@@ -82,11 +89,11 @@ export default (app) => {
         }
         const alipay = buildProjectAlipay(project);
         const result = await alipay.exec('alipay.ebpp.invoice.taxno.batchquery',{
-            auth_token: authRecord.accessToken,
-            biz_content: {
-                tax_no: project.alipay.taxNo,
-                invoice_kind_list: ['PLAIN','SPECIAL','PLAIN_INVOICE','PAPER_INVOICE','SALES_INVOICE'],
-                secne: 'INVOICE_EXPENSE',
+            authToken: authRecord.accessToken,
+            bizContent: {
+                taxNo: project.alipay.taxNo,
+                invoiceKindList: ['PLAIN'],
+                scene: 'INVOICE_EXPENSE',
             }
         });
         res.json(result).end();

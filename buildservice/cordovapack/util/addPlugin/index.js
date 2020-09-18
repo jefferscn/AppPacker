@@ -1,7 +1,8 @@
 import path from 'path';
 import addPluginReal from './addPluginReal';
+import querystring from 'querystring';
 
-async function addPlugin(appPlugin) {
+async function addPlugin(appPlugin, evalEnv) {
     console.log('addPlugin');
     console.log('cwd',process.cwd());
     console.log('__dirname', __dirname);
@@ -46,11 +47,12 @@ async function addPlugin(appPlugin) {
                 var pluginName = plugin.split('?')[0].toString();
                 var pluginVariable = plugin.split('?')[1];
                 //toJson
+                var vars = querystring.parse(pluginVariable);
                 var variable = {};
                 variable.cli_variables = {};
-                pluginVariable.split('&').forEach(function (v) {
-                    variable.cli_variables[v.split('=')[0]] = eval('`' + v.split('=')[1] + '`');
-                });
+                for(let key in vars) {
+                    variable.cli_variables[key] = eval('`' + vars[key] + '`');
+                }
                 await addPluginReal(pluginName, variable);
             }
         }

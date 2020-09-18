@@ -22,6 +22,12 @@ const plugins = [
         args: ['APP_KEY']
     },
     {
+        url: 'cc.fovea.cordova.openwith',
+        name: 'cc.fovea.cordova.openwith',
+        hasArgs: true,
+        args: ['ANDROID_MIME_TYPE','IOS_URL_SCHEME','IOS_UNIFORM_TYPE_IDENTIFIER']
+    },
+    {
         url: 'cordova-plugin-geolocation-baidu',
         name: 'cordova-plugin-geolocation-baidu(百度地图定位)',
         platform: 'ios',
