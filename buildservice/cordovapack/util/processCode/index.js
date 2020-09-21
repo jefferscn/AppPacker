@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import { configparser } from 'cordova-lib';
 
-function processCode(configXML, appVersion, appPackageName, appName, appDescription, appIcon, androidTargetSdkVersion, appPlatform, release, project) {
+function processCode(configXML, appVersion, appPackageName, appName, appDescription, appIcon, androidTargetSdkVersion, appPlatform, release, project, preferences) {
     var configPath = configXML;
     return new Promise(function (resolve, reject) {
         var conf = new configparser(configPath);
@@ -31,6 +31,11 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
         conf.addElement('preference', { 'name': 'android-targetSdkVersion', 'value': androidTargetSdkVersion || '22' });
         // cordova-ios 版本低于4.5.1不支持XCode 9.4.1 
         conf.addElement('engine', { 'name': 'ios', 'spec': '^4.5.1' });
+        if(preferences) {
+            preferences.forEach(preference=> {
+                config.addElement('preference', preference);
+            })
+        }
         //splash image
         conf.write();
         try {

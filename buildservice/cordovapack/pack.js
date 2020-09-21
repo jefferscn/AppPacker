@@ -28,7 +28,7 @@ import {
     Logger,
     upload,
     buildIOSExtra,
-    buildInject,
+    buildInject,, getAllPluginVariables
 } from './util/';
 
 const workingDir = path.resolve(__dirname, 'working');
@@ -177,7 +177,15 @@ async function pack(cfg) {
             fs.createReadStream(path.resolve(__dirname, '1125_2436.png')).pipe(fs.createWriteStream(path.resolve(`${o.resPath}/${o.appPlatform}`, '1125_2436.png')));
         }
         logger.info('download icon OK');
-        await processCode(o.configXML, o.appVersion, o.appPackageName, o.appName, o.appDescription, o.appIcon, null, o.appPlatform, o.release, cfg.project);
+        var vars = getAllPluginVariables(o.appPlugin, evalEnv);
+        var preferences = [];
+        for(let key in vars) {
+            preferences.push({
+                name: key,
+                value: vars[key],
+            });
+        }
+        await processCode(o.configXML, o.appVersion, o.appPackageName, o.appName, o.appDescription, o.appIcon, null, o.appPlatform, o.release, cfg.project, preferences);
         logger.info('process config.xml success');
 
         // 解压缩任务中的压缩包

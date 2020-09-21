@@ -4,7 +4,7 @@ import buildApp from './buildApp';
 import releaseFile from './releaseFile';
 import addKey from './addKey';
 import buildExtras, { buildIOSExtra } from './buildExtras';
-import addPlugin from './addPlugin';
+import addPlugin, { getAllPluginVariables } from './addPlugin';
 import preparePlatform from './preparePlatform';
 import processCode from './processCode';
 import createCordova from './createCordova';
@@ -37,4 +37,5 @@ export {
     upload,
     buildIOSExtra,
     buildInject,
+    getAllPluginVariables,
 }
