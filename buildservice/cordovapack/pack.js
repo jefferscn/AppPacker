@@ -155,6 +155,7 @@ async function pack(cfg) {
                 const mobileProvision = await installMobileProvision(o.mobileProvisionUrl);
                 logger.info('Install mobile provision success.');
                 evalEnv.provisionUUID = mobileProvision.UUID;
+                evalEnv.teamIdentifier = mobileProvision.TeamIdentifier;
                 o.appIosMp = mobileProvision;
             } catch (ex) {
 
