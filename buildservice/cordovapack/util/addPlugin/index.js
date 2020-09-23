@@ -75,18 +75,18 @@ export const getAllPluginVariables = (appPlugin, evalEnv) => {
         var pluginWithoutVariable = [];
         var customPluginReg = /^https?:\/\/(www\.)?/i;
         for (var i = 0; i < plugin.length; i++) {
-            if (plugin[i].indexOf('?') === -1) {
-                if (customPluginReg.test(plugin[i].toString())) {
-                    pluginWithoutVariable.push(plugin[i].toString());
-                } else {
-                    pluginWithoutVariable.push(`${pluginPre}/${plugin[i].toString()}`);
-                }
-            } else {
-                if (customPluginReg.test(plugin[i].toString())) {
+            if (plugin[i].indexOf('?') > 0) {
+            //     if (customPluginReg.test(plugin[i].toString())) {
+                    // pluginWithoutVariable.push(plugin[i].toString());
+            //     } else {
+            //         pluginWithoutVariable.push(`${pluginPre}/${plugin[i].toString()}`);
+            //     }
+            // } else {
+            //     if (customPluginReg.test(plugin[i].toString())) {
                     pluginWithVariable.push(plugin[i].toString());
-                } else {
-                    pluginWithVariable.push(`${pluginPre}/${plugin[i].toString()}`);
-                }
+            //     } else {
+            //         pluginWithVariable.push(`${pluginPre}/${plugin[i].toString()}`);
+            //     }
             }
         }
         if (pluginWithVariable.length !== 0) {

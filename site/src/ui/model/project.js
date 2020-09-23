@@ -33,6 +33,11 @@ const projectSchema = new mongoose.Schema({
             filename: String,
             url: String,
             id: String,
+        },
+        shareProvision: {
+            filename: String,
+            url: String,
+            id: String,
         },        
         certificate: {
             file: {

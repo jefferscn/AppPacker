@@ -1,6 +1,7 @@
 import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import { configparser } from 'cordova-lib';
+import config from '../../../config';
 
 function processCode(configXML, appVersion, appPackageName, appName, appDescription, appIcon, androidTargetSdkVersion, appPlatform, release, project, preferences) {
     var configPath = configXML;
@@ -33,7 +34,7 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
         conf.addElement('engine', { 'name': 'ios', 'spec': '^4.5.1' });
         if(preferences) {
             preferences.forEach(preference=> {
-                config.addElement('preference', preference);
+                conf.addElement('preference', preference);
             })
         }
         //splash image

@@ -59,6 +59,9 @@ export class ProjectCreate extends PureComponent{
                         <FileInput url="./upload" source="ios.mobileProvisionDev" placeholder="上传IOS打包用签名文件(开发)">
                             <FilePreview/>
                         </FileInput>
+                        <FileInput url="./upload" source="ios.shareProvision" placeholder="分享插件专用签名文件">
+                            <FilePreview/>
+                        </FileInput>
                     </FormTab>
                     <FormTab label="Android">
                         <TextInput source="android.svn.url" />
@@ -122,6 +125,9 @@ export class ProjectEdit extends PureComponent{
                             <FilePreview/>
                         </FileInput>
                         <FileInput url="./upload" source="ios.mobileProvisionDev" placeholder="上传IOS打包用签名文件(开发)">
+                            <FilePreview/>
+                        </FileInput>
+                        <FileInput url="./upload" source="ios.shareProvision" placeholder="分享插件专用签名文件">
                             <FilePreview/>
                         </FileInput>
                     </FormTab>

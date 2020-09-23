@@ -25,7 +25,12 @@ const plugins = [
         url: 'cc.fovea.cordova.openwith',
         name: 'cc.fovea.cordova.openwith',
         hasArgs: true,
-        args: ['ANDROID_MIME_TYPE','IOS_URL_SCHEME','IOS_UNIFORM_TYPE_IDENTIFIER','SHAREEXT_PROVISIONING_PROFILE','SHAREEXT_DEVELOPMENT_TEAM']
+        args: ['ANDROID_MIME_TYPE',
+            'IOS_URL_SCHEME',
+            'IOS_UNIFORM_TYPE_IDENTIFIER',
+            'SHAREEXT_PROVISIONING_PROFILE',
+            'IOS_GROUP_IDENTIFIER',
+            'SHAREEXT_DEVELOPMENT_TEAM']
     },
     {
         url: 'cordova-plugin-geolocation-baidu',

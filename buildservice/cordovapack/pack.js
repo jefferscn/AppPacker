@@ -28,7 +28,8 @@ import {
     Logger,
     upload,
     buildIOSExtra,
-    buildInject,, getAllPluginVariables
+    buildInject,
+    getAllPluginVariables
 } from './util/';
 
 const workingDir = path.resolve(__dirname, 'working');
@@ -142,6 +143,9 @@ async function pack(cfg) {
             }
             o.certificateUrl = url.resolve(config.server.baseUrl, cfg.project.ios.certificate.file.url);
             o.certificatePwd = cfg.project.ios.certificate.password;
+            if(cfg.project.ios.shareProvision && cfg.project.ios.shareProvision.url) {
+                o.shareProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.shareProvision.url);
+            }
             o.appPlugin.push('org.frd49.cordova.exitapp');
         }
 
@@ -153,7 +157,12 @@ async function pack(cfg) {
 
                 logger.info('Install mobile provision begin');
                 const mobileProvision = await installMobileProvision(o.mobileProvisionUrl);
-                logger.info('Install mobile provision success.');
+                logger.info('Install mobile provision success.');   
+                if(o.shareProvisionUrl) {
+                    const shareProvision = await installMobileProvision(o.shareProvisionUrl);
+                    evalEnv.shareProvisionUUID = shareProvision.UUID;
+                    evalEnv.shareTeamIdentifier = shareProvision.TeamIdentifier;
+                }
                 evalEnv.provisionUUID = mobileProvision.UUID;
                 evalEnv.teamIdentifier = mobileProvision.TeamIdentifier;
                 o.appIosMp = mobileProvision;
@@ -185,6 +194,7 @@ async function pack(cfg) {
                 value: vars[key],
             });
         }
+        console.log(preferences);
         await processCode(o.configXML, o.appVersion, o.appPackageName, o.appName, o.appDescription, o.appIcon, null, o.appPlatform, o.release, cfg.project, preferences);
         logger.info('process config.xml success');
 
