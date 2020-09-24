@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
+import plist from 'plist';
 
 function buildExtras() {
     const lintOptions =
@@ -50,6 +51,16 @@ export function buildIOSExtra(o) {
                     reject(new Error(err));
                     return;
                 }
+                fs.copyFileSync(path.join(__dirname, 'cordovapack/util/buildExtras/build.js'),
+                `platforms/ios/cordova/lib/build.js`);
+                const exportOptionsPath = path.join(process.cwd(), 'platforms/ios/exportOptions.plist');
+                var exportOptions = { 'compileBitcode': false, 'method': o.appBuildType==='release'?'enterprise':'development' };
+                const provisions = {};
+                for(let key in o.appIosMp) {
+                    provisions[key] = o.appIosMp[key].UUID;
+                }
+                exportOptions['provisioningProfiles']=provisions;
+                fs.writeFileSync(exportOptionsPath, plist.build(exportOptions));
                 resolve();
             }
         );

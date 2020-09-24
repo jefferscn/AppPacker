@@ -148,7 +148,6 @@ async function pack(cfg) {
             }
             o.appPlugin.push('org.frd49.cordova.exitapp');
         }
-
         if (o.appPlatform == 'ios') {
             try {
                 logger.info('Install p12 begin ');
@@ -159,22 +158,23 @@ async function pack(cfg) {
                 const mobileProvision = await installMobileProvision(o.mobileProvisionUrl);
                 logger.info('Install mobile provision success.');   
                 if(o.shareProvisionUrl) {
-                    const shareProvision = await installMobileProvision(o.shareProvisionUrl);
+                    console.log('install share Provision');
+                    const shareProvision = await installMobileProvision(o.shareProvisionUrl, 'share.mobileprovision');
                     evalEnv.shareProvisionUUID = shareProvision.UUID;
                     evalEnv.shareTeamIdentifier = shareProvision.TeamIdentifier;
+                    o.appIosMp[`${o.appNameSpace}.shareextension`] = shareProvision;
                 }
                 evalEnv.provisionUUID = mobileProvision.UUID;
                 evalEnv.teamIdentifier = mobileProvision.TeamIdentifier;
-                o.appIosMp = mobileProvision;
+                o.appIosMp[o.appNameSpace] = mobileProvision;
             } catch (ex) {
-
+                console.log(ex);
             }
         }
 
         logger.info('create cordova begin');
         await createCordova(o.appName, o.appNameSpace);
         logger.info('create cordova success');
-        console.log(cfg.project.icon);
         await emptyDir(o.resPath);
         await emptyDir(o.hooksPath);
         await emptyDir(o.wwwPath);
@@ -186,6 +186,7 @@ async function pack(cfg) {
             fs.createReadStream(path.resolve(__dirname, '1125_2436.png')).pipe(fs.createWriteStream(path.resolve(`${o.resPath}/${o.appPlatform}`, '1125_2436.png')));
         }
         logger.info('download icon OK');
+        console.log(evalEnv);
         var vars = getAllPluginVariables(o.appPlugin, evalEnv);
         var preferences = [];
         for(let key in vars) {
@@ -229,7 +230,8 @@ async function pack(cfg) {
         if (o.appPlatform === 'ios') {
             await buildIOSExtra(o);
         }
-        await addKey(o.appIosMp);
+        
+        await addKey(o.appName, o.appIosMp[o.appNameSpace], o.appBuildType, o.appPlatform);
         logger.info('cordova add licence key OK');
         await buildApp(o.platform, o.appBuildType);
         logger.info('cordova build application OK');

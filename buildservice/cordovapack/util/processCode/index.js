@@ -1,7 +1,6 @@
 import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import { configparser } from 'cordova-lib';
-import config from '../../../config';
 
 function processCode(configXML, appVersion, appPackageName, appName, appDescription, appIcon, androidTargetSdkVersion, appPlatform, release, project, preferences) {
     var configPath = configXML;

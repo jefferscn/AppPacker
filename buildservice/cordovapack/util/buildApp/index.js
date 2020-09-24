@@ -1,4 +1,5 @@
 import { cordova } from 'cordova-lib';
+import path from 'path';
 
 function buildApp(platform, appBuildType) {
     var buildType = appBuildType === 'release';// ? true : platform == 'ios';
@@ -6,6 +7,7 @@ function buildApp(platform, appBuildType) {
         "slilent": false,
         "device": true,
         "release": buildType,
+        "exportOptions": path.join(process.cwd(), 'platforms/ios/exportOptions.plist'),
     };
     return new Promise(function (resolve, reject) {
         cordova.build({
