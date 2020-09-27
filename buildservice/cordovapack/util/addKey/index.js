@@ -47,7 +47,6 @@ function addKey(appName, appIosMp, buildType, platform) {
         if (platform === 'ios') {
             const cwd = process.cwd();
             const projectPath = path.join(cwd, "platforms/ios", `${appName}.xcodeproj`, 'project.pbxproj');
-            console.log(projectPath);
             const pbxProject = xcode.project(projectPath);
             pbxProject.parseSync();
             const configurations = pbxProject.pbxXCBuildConfigurationSection();
@@ -57,9 +56,12 @@ function addKey(appName, appIosMp, buildType, platform) {
                     if (typeof buildSettingsObj['PRODUCT_NAME'] !== 'undefined') {
                         var productName = buildSettingsObj['PRODUCT_NAME'];
                         if (productName.indexOf(appName) >= 0) {
+                            console.log('add Sign info to Project');
                             buildSettingsObj['PROVISIONING_PROFILE'] = appIosMp.UUID;
                             buildSettingsObj['DEVELOPMENT_TEAM'] = appIosMp.TeamIdentifier;
                             buildSettingsObj['CODE_SIGN_STYLE'] = 'Manual';
+                            buildSettingsObj['CODE_SIGN_ENTITLEMENTS'] = 
+                                buildType==='release' ? `"${appName}/Entitlements-Debug.plist"` : `"${appName}/Entitlements-Release.plist"`;
                             buildSettingsObj['CODE_SIGN_IDENTITY'] = buildType === 'release' ? '"iPhone Distribution"' : '"iPhone Development"';
                         }
                     }

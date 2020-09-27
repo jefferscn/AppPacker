@@ -73,7 +73,7 @@ async function pack(cfg) {
         // "phonegap-plugin-barcodescanner",
         "ionic-plugin-keyboard",
         "cordova-plugin-network-information",
-        "cordova-plugin-statusbar",     
+        "cordova-plugin-statusbar",
         // "cordova-plugin-dialogs",
         // "cordova-plugin-crosswalk-webview",
         "com.lampa.startapp",
@@ -143,7 +143,7 @@ async function pack(cfg) {
             }
             o.certificateUrl = url.resolve(config.server.baseUrl, cfg.project.ios.certificate.file.url);
             o.certificatePwd = cfg.project.ios.certificate.password;
-            if(cfg.project.ios.shareProvision && cfg.project.ios.shareProvision.url) {
+            if (cfg.project.ios.shareProvision && cfg.project.ios.shareProvision.url) {
                 o.shareProvisionUrl = url.resolve(config.server.baseUrl, cfg.project.ios.shareProvision.url);
             }
             o.appPlugin.push('org.frd49.cordova.exitapp');
@@ -156,8 +156,8 @@ async function pack(cfg) {
 
                 logger.info('Install mobile provision begin');
                 const mobileProvision = await installMobileProvision(o.mobileProvisionUrl);
-                logger.info('Install mobile provision success.');   
-                if(o.shareProvisionUrl) {
+                logger.info('Install mobile provision success.');
+                if (o.shareProvisionUrl) {
                     console.log('install share Provision');
                     const shareProvision = await installMobileProvision(o.shareProvisionUrl, 'share.mobileprovision');
                     evalEnv.shareProvisionUUID = shareProvision.UUID;
@@ -189,7 +189,7 @@ async function pack(cfg) {
         console.log(evalEnv);
         var vars = getAllPluginVariables(o.appPlugin, evalEnv);
         var preferences = [];
-        for(let key in vars) {
+        for (let key in vars) {
             preferences.push({
                 name: key,
                 value: vars[key],
@@ -220,17 +220,16 @@ async function pack(cfg) {
 
         process.chdir(o.appName);
         await addPlatform(o.appPlatform);
+        //修改app delegate，使ios支持cookie
+        if (o.appPlatform === 'ios') {
+            await buildIOSExtra(o);
+        }
         logger.info('cordova add platform OK');
         await addPlugin(o.appPlugin, evalEnv);
         logger.info('cordova add plugins OK');
         if (o.appPlatform === 'android') {
             await buildExtras(); // android
         }
-        //修改app delegate，使ios支持cookie
-        if (o.appPlatform === 'ios') {
-            await buildIOSExtra(o);
-        }
-        
         await addKey(o.appName, o.appIosMp[o.appNameSpace], o.appBuildType, o.appPlatform);
         logger.info('cordova add licence key OK');
         await buildApp(o.platform, o.appBuildType);

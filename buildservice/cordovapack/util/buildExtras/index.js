@@ -61,6 +61,11 @@ export function buildIOSExtra(o) {
                 }
                 exportOptions['provisioningProfiles']=provisions;
                 fs.writeFileSync(exportOptionsPath, plist.build(exportOptions));
+                const cwd = process.cwd();
+                fs.copyFileSync(path.join(__dirname, 'cordovapack/util/addKey/Entitlements-Debug.plist'), 
+                    path.join(cwd,'platforms/ios',o.appName, 'Entitlements-Debug.plist'));
+                fs.copyFileSync(path.join(__dirname, './cordovapack/util/addKey/Entitlements-Release.plist'), 
+                    path.join(cwd,'platforms/ios',o.appName, 'Entitlements-Release.plist'));
                 resolve();
             }
         );
