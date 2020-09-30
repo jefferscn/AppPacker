@@ -71,6 +71,9 @@ export default (app) => {
     async function getInvoiceList(req, res) {
         const projectId = req.params.projectId;
         const yigoUserId = req.body.userId;
+        const { startDate, endDate } = req.body;
+        const limit = req.body.limit || 20;
+        const page = req.body.page || 1;
         const project = await Project.findOne({
             appId: projectId,
         });
@@ -91,9 +94,14 @@ export default (app) => {
         const result = await alipay.exec('alipay.ebpp.invoice.taxno.batchquery',{
             authToken: authRecord.accessToken,
             bizContent: {
-                taxNo: project.alipay.taxNo,
-                invoiceKindList: ['PLAIN'],
-                scene: 'INVOICE_EXPENSE',
+                // taxNo: project.alipay.taxNo,
+                // invoiceKindList: ['PLAIN'],
+                // scene: 'INVOICE_EXPENSE',
+                user_id: result.userId,
+                start_invoice_date: startDate,
+                end_invoice_date: endDate,
+                limit_size: limit,
+                page_num: page,
             }
         });
         res.json(result).end();
