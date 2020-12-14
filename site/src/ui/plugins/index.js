@@ -12,6 +12,10 @@ const plugins = [
         name: 'phonegap-plugin-barcodescanner(条码/二维码扫描)',
     },
     {
+        url: 'cordova-plugin-imagepicker',
+        name: '图片选择',
+    },
+    {
         url: 'cordova-plugin-baidu-push',
         name: '百度推送(非官方)',
     },

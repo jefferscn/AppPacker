@@ -94,10 +94,10 @@ export default (app) => {
         const result = await alipay.exec('alipay.ebpp.invoice.taxno.batchquery',{
             authToken: authRecord.accessToken,
             bizContent: {
-                // taxNo: project.alipay.taxNo,
-                // invoiceKindList: ['PLAIN'],
-                // scene: 'INVOICE_EXPENSE',
-                user_id: result.userId,
+                taxNo: project.alipay.taxNo,
+                invoiceKindList: ['PLAIN'],
+                scene: 'INVOICE_EXPENSE',
+                //user_id: result.userId,
                 start_invoice_date: startDate,
                 end_invoice_date: endDate,
                 limit_size: limit,

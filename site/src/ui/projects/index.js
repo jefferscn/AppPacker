@@ -41,8 +41,8 @@ export class ProjectCreate extends PureComponent{
                     <FormTab label="项目设置">
                         <BooleanInput label="是否支持推送" source="settings.jpush" />
                         <BooleanInput label="使用自定义更新模式" source="settings.autoUpdate" />
-                        <TextInput label="测试服务器地址" source="settings.release.serverPath" />
-                        <TextInput label="正式服务器地址" source="settings.debug.serverPath"/>
+                        <TextInput label="测试服务器地址" source="settings.debug.serverPath" />
+                        <TextInput label="正式服务器地址" source="settings.release.serverPath"/>
                     </FormTab>
                     <FormTab label="IOS">
                         <TextInput label="项目svn地址" source="ios.svn.url" />
@@ -109,8 +109,8 @@ export class ProjectEdit extends PureComponent{
                     <FormTab label="项目设置">
                         <BooleanInput label="是否支持推送" source="settings.jpush" />
                         <BooleanInput label="使用自定义更新模式" source="settings.autoUpdate" />
-                        <TextInput label="测试服务器地址" source="settings.release.serverPath" />
-                        <TextInput label="正式服务器地址" source="settings.debug.serverPath"/>
+                        <TextInput label="测试服务器地址" source="settings.debug.serverPath" />
+                        <TextInput label="正式服务器地址" source="settings.release.serverPath"/>
                     </FormTab>
                     <FormTab label="IOS">
                         <TextInput label="项目svn地址" source="ios.svn.url" />
