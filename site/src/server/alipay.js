@@ -68,6 +68,27 @@ export default (app) => {
         }).end();
     }
 
+    async function checkValid(req, res) {
+        const projectId = req.params.projectId;
+        const yigoUserId = req.body.userId;
+        const project = await Project.findOne({
+            appId: projectId,
+        });
+        if (!project) {
+            res.state(404).end();
+            return;
+        }
+        const authRecord = await AlipayAuthRecord.findOne({
+            packageKey: project.appId,
+            state: yigoUserId,
+        });
+        if(authRecord) {
+            res.json({result: true}).end();
+            return;
+        }
+        res.json({result: false}).end();
+    }
+
     async function getInvoiceList(req, res) {
         const projectId = req.params.projectId;
         const yigoUserId = req.body.userId;
@@ -97,7 +118,6 @@ export default (app) => {
                 taxNo: project.alipay.taxNo,
                 invoiceKindList: ['PLAIN'],
                 scene: 'INVOICE_EXPENSE',
-                //user_id: result.userId,
                 start_invoice_date: startDate,
                 end_invoice_date: endDate,
                 limit_size: limit,
@@ -107,5 +127,6 @@ export default (app) => {
         res.json(result).end();
     }
     app.get('/alipay/:projectId/authCallback', authCallback);
+    app.post('/alipay/:projectId/checkValid', checkValid);
     app.post('/alipay/:projectId/getInvoiceList', getInvoiceList);
 }

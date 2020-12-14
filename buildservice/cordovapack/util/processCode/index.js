@@ -30,6 +30,7 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
         conf.addElement('preference', { 'name': 'android-minSdkVersion', 'value': '17'});
         conf.addElement('preference', { 'name': 'android-targetSdkVersion', 'value': androidTargetSdkVersion || '22' });
         // cordova-ios 版本低于4.5.1不支持XCode 9.4.1 
+        conf.addElement('preference', { 'name': 'tools-overrideLibrary', 'value': 'com.nanchen.compresshelper'});
         conf.addElement('engine', { 'name': 'ios', 'spec': '^4.5.1' });
         if(preferences) {
             preferences.forEach(preference=> {
@@ -93,6 +94,7 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
                         '    <platform name="android">\n' +
                         '        <icon src="res/app.icon" />\n' +
                         '        <hook type="before_build" src="hooks/android.max_aspect.js" />\n' +
+                        '        <hook type="after_prepare" src="hooks/add_tools_namespace.js" />\n' +
                         '    </platform>\n';
                     $('widget').append(icon);
                 }

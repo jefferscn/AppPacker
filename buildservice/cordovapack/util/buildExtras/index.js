@@ -4,6 +4,7 @@ import plist from 'plist';
 
 function buildExtras() {
     const lintOptions =
+        "ext.cdvMinSdkVersion = 17"
         "android {\n" +
         "    lintOptions {\n" +
         "        disable 'MissingTranslation'\n" +

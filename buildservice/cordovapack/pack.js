@@ -214,6 +214,7 @@ async function pack(cfg) {
         if (o.appPlatform == 'android') {
             logger.info('add hook begin');
             fs.createReadStream(path.resolve(__dirname, './cordovapack/hooks/android.max_aspect.js')).pipe(fs.createWriteStream(path.resolve(o.hooksPath, 'android.max_aspect.js')));
+            fs.createReadStream(path.resolve(__dirname, './cordovapack/hooks/add_tools_namespace.js')).pipe(fs.createWriteStream(path.resolve(o.hooksPath, 'add_tools_namespace.js')));
             logger.info('add hook OK');
         }
         // await addBaiduMapScript(o.htmlPath, o.appPlugin);
