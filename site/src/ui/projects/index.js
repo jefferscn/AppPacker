@@ -1,6 +1,6 @@
 ﻿import React , { PureComponent } from 'react';
 import { List, Datagrid, TextInput , Create , Edit , TabbedForm , Show ,ReferenceField , ShowButton ,
-    SimpleShowLayout , EditButton , FormTab , TextField , Responsive, SimpleList } from 'admin-on-rest/lib/mui';
+    SimpleShowLayout , EditButton , FormTab , TextField , BooleanInput, UrlField, LongTextInput , Responsive, SimpleList } from 'admin-on-rest/lib/mui';
 // import RichTextInput from 'aor-rich-text-input';
 import FileInput , { FilePreview, ImagePreview } from '../FileInput'
 import IOSInstallLink from '../IOSInstallLink';
@@ -27,15 +27,15 @@ export class ProjectList extends PureComponent{
                     />
             }
             medium={
-                <Datagrid>
-                    <ProjectName source="name" />
-                    {/* <TextField source="name" /> */}
-                    <TextField source="desc" />
-                    <TextField source="lastRelease.ios.version" label="IOS版本"/>
-                    <TextField source="lastRelease.android.version" label="Android版本"/>
-                    <EditButton />
-                    <ShowButton/>
-                </Datagrid>
+            <Datagrid>
+                <ProjectName source="name" />
+                {/* <TextField source="name" /> */}
+                <TextField source="desc" />
+                <TextField source="lastRelease.ios.version" label="IOS版本"/>
+                <TextField source="lastRelease.android.version" label="Android版本"/>
+                <EditButton />
+                <ShowButton/>
+            </Datagrid>
             }
             />
         </List>);
@@ -55,6 +55,12 @@ export class ProjectCreate extends PureComponent{
                             <ImagePreview/>
                         </FileInput>
                     </FormTab>
+                    <FormTab label="项目设置">
+                        <BooleanInput label="是否支持推送" source="settings.jpush" />
+                        <BooleanInput label="使用自定义更新模式" source="settings.autoUpdate" />
+                        <TextInput label="测试服务器地址" source="settings.debug.serverPath" />
+                        <TextInput label="正式服务器地址" source="settings.release.serverPath"/>
+                    </FormTab>
                     <FormTab label="IOS">
                         <TextInput label="项目svn地址" source="ios.svn.url" />
                         <TextInput label="项目svn用户" source="ios.svn.userName" />
@@ -64,7 +70,13 @@ export class ProjectCreate extends PureComponent{
                             <FilePreview/>
                         </FileInput>
                         <TextInput label="证书密码" source="ios.certificate.password" type="password"/>
-                        <FileInput url="./upload" source="ios.mobileProvision" placeholder="上传IOS打包用签名文件">
+                        <FileInput url="./upload" source="ios.mobileProvision" placeholder="上传IOS打包用签名文件(正式)">
+                            <FilePreview/>
+                        </FileInput>
+                        <FileInput url="./upload" source="ios.mobileProvisionDev" placeholder="上传IOS打包用签名文件(开发)">
+                            <FilePreview/>
+                        </FileInput>
+                        <FileInput url="./upload" source="ios.shareProvision" placeholder="分享插件专用签名文件">
                             <FilePreview/>
                         </FileInput>
                     </FormTab>
@@ -82,6 +94,12 @@ export class ProjectCreate extends PureComponent{
                     <FormTab label="微信">
                         <TextInput source="wechat.appId" label="appID" />
                         <TextInput source="wechat.appsecret" label="appsecret"  />
+                    </FormTab>
+                    <FormTab label="支付宝">
+                        <TextInput source="alipay.appId" label="appID" />
+                        <LongTextInput source="alipay.appPrivateKey" label="privateKey" />
+                        <TextInput source="alipay.encryptKey" label="encryptKey" />
+                        <TextInput source="alipay.taxNo" label="税号" />
                     </FormTab>
                     <FormTab label="插件">
                         <PluginInput source="plugins" />
@@ -105,6 +123,12 @@ export class ProjectEdit extends PureComponent{
                             <ImagePreview/>
                         </FileInput>
                     </FormTab>
+                    <FormTab label="项目设置">
+                        <BooleanInput label="是否支持推送" source="settings.jpush" />
+                        <BooleanInput label="使用自定义更新模式" source="settings.autoUpdate" />
+                        <TextInput label="测试服务器地址" source="settings.debug.serverPath" />
+                        <TextInput label="正式服务器地址" source="settings.release.serverPath"/>
+                    </FormTab>
                     <FormTab label="IOS">
                         <TextInput label="项目svn地址" source="ios.svn.url" />
                         <TextInput label="项目svn用户" source="ios.svn.userName" />
@@ -115,6 +139,12 @@ export class ProjectEdit extends PureComponent{
                         </FileInput>
                         <TextInput label="证书密码" source="ios.certificate.password" type="password"/>
                         <FileInput url="./upload" source="ios.mobileProvision" placeholder="上传IOS打包用签名文件">
+                            <FilePreview/>
+                        </FileInput>
+                        <FileInput url="./upload" source="ios.mobileProvisionDev" placeholder="上传IOS打包用签名文件(开发)">
+                            <FilePreview/>
+                        </FileInput>
+                        <FileInput url="./upload" source="ios.shareProvision" placeholder="分享插件专用签名文件">
                             <FilePreview/>
                         </FileInput>
                     </FormTab>
@@ -132,6 +162,12 @@ export class ProjectEdit extends PureComponent{
                     <FormTab label="微信">
                         <TextInput source="wechat.appId" label="appID" />
                         <TextInput source="wechat.appsecret" label="appsecret"  />
+                    </FormTab>
+                    <FormTab label="支付宝">
+                        <TextInput source="alipay.appId" label="appID" />
+                        <LongTextInput source="alipay.appPrivateKey" label="privateKey" />
+                        <TextInput source="alipay.encryptKey" label="encryptKey" />
+                        <TextInput source="alipay.taxNo" label="税号" />
                     </FormTab>
                     <FormTab label="插件">
                         <PluginInput source="plugins" />

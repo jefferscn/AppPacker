@@ -29,6 +29,7 @@ async function sign(req, res) {
         res.state(500).end();
     }
 }
+
 export default (app) => {
     app.post('/wechatsign/:projectId', sign);
 }

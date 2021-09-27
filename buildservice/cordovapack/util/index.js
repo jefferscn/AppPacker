@@ -3,8 +3,8 @@ import emptyDir from './emptyDir';
 import buildApp from './buildApp';
 import releaseFile from './releaseFile';
 import addKey from './addKey';
-import buildExtras from './buildExtras';
-import addPlugin from './addPlugin';
+import buildExtras, { buildIOSExtra } from './buildExtras';
+import addPlugin, { getAllPluginVariables } from './addPlugin';
 import preparePlatform from './preparePlatform';
 import processCode from './processCode';
 import createCordova from './createCordova';
@@ -15,6 +15,7 @@ import preparePack from './preparePack';
 import addBaiduMapScript from './addBaiduMapScript';
 import Logger from './logger';
 import upload from './upload';
+import buildInject from './inject';
 
 export {
     addPlatform,
@@ -34,4 +35,7 @@ export {
     addBaiduMapScript,
     Logger,
     upload,
+    buildIOSExtra,
+    buildInject,
+    getAllPluginVariables,
 }

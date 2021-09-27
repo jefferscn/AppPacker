@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import { configparser } from 'cordova-lib';
 
-function processCode(configXML, appVersion, appPackageName, appName, appDescription, appIcon, androidTargetSdkVersion, appPlatform, appBuildType) {
+function processCode(configXML, appVersion, appPackageName, appName, appDescription, appIcon, androidTargetSdkVersion, appPlatform, release, project, preferences) {
     var configPath = configXML;
     return new Promise(function (resolve, reject) {
         var conf = new configparser(configPath);
@@ -23,11 +23,20 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
         conf.addElement('preference', { 'name': 'DisallowOverscroll', 'value': 'true' });
         conf.addElement('preference', { 'name': 'Orientation', 'value': 'portrait' });
         conf.addElement('preference', { 'name': "SplashScreenDelay", 'value': '0' });
+        conf.addElement('preference', { 'name': "fullscreen", 'value': 'false' });
+        conf.addElement('preference', { 'name': "android-windowSoftInputMode", 'value': 'stateVisible|adjustResize' });
         conf.addElement('allow-navigation', { 'href': '*' });
         //防止Android6.0（API 23）权限出现问题,强制API为22
+        conf.addElement('preference', { 'name': 'android-minSdkVersion', 'value': '17'});
         conf.addElement('preference', { 'name': 'android-targetSdkVersion', 'value': androidTargetSdkVersion || '22' });
         // cordova-ios 版本低于4.5.1不支持XCode 9.4.1 
+        conf.addElement('preference', { 'name': 'tools-overrideLibrary', 'value': 'com.nanchen.compresshelper'});
         conf.addElement('engine', { 'name': 'ios', 'spec': '^4.5.1' });
+        if(preferences) {
+            preferences.forEach(preference=> {
+                conf.addElement('preference', preference);
+            })
+        }
         //splash image
         conf.write();
         try {
@@ -52,6 +61,7 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
                 var splash = '<platform name="ios">\n' +
                     '<preference name="FadeSplashScreen" value="false"/>' +
                     '<preference name="FadeSplashScreenDuration" value="0"/>\n' +
+                    '<splash src="res/ios/1125_2436.png" width="1125" height="2436"/>' +
                     '</platform>\n';
                 $('widget').append(splash);
                 if (appIcon) {
@@ -84,13 +94,14 @@ function processCode(configXML, appVersion, appPackageName, appName, appDescript
                         '    <platform name="android">\n' +
                         '        <icon src="res/app.icon" />\n' +
                         '        <hook type="before_build" src="hooks/android.max_aspect.js" />\n' +
+                        '        <hook type="after_prepare" src="hooks/add_tools_namespace.js" />\n' +
                         '    </platform>\n';
                     $('widget').append(icon);
                 }
                 //content
                 //<content src="index.html"/>
-                if (appBuildType === 'debug') {
-                    $('content').attr('src', 'checkupdate.html');
+                if (!release || project.settings.autoUpdate) {
+                    $('content').attr('src', 'index.html');
                     // $('content').attr('src', 'serverpath.html');
                 } else {
                     $('content').attr('src', 'checkupdate.html');

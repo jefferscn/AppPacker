@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:* gap://* tel:* 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'" />
     <meta name="viewport"
         content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,height=device-height" />
     <title>Updater</title>
@@ -80,9 +79,12 @@
         .dialog-opera {
             width: 100%;
             border-top: 1px solid #ddd;
+            display: flex;
+            flex-direction: row;
         }
 
         .dialog-btn {
+            flex: 1;
             display: block;
             height: 50px;
             border: none;
@@ -133,7 +135,7 @@
                     var platform = device.platform.toLowerCase();
                     fs.getFile('android.apk', { create: true }, function (fileEntry) {
                         download(fileEntry, url).catch(reject);
-                        resolve();
+                        // resolve();
                     }, reject);
                 }, reject)
             })
@@ -154,8 +156,16 @@
                 ft.download(url, fileURL, function (entry) {
                     cordova.plugins.fileOpener2.open(
                         entry.toURL(),
-                        'application/vnd.android.package-archive'
-                    );
+                        'application/vnd.android.package-archive', {
+                        error: function (da) {
+                            console.log(da);
+                            reject();
+
+                        },
+                        success: function (data) {
+                            resolve();
+                        }
+                    });
                     resolve();
                 }, function (err) {
                     reject(err);
@@ -251,20 +261,24 @@
                                         var versionCompResult = versionCompare(remoteVersion, version);
                                         var needUpdate = versionCompResult > 0;
                                         if (needUpdate) {
-                                            updateApp(platform, platformData.Url);
+                                            updateApp(platform, platformData.Url).then(() => {
+                                                resolve();
+                                            }).catch((error) => {
+                                                reject(error);
+                                            });
                                         } else {
                                             resolve();
                                         }
                                     });
                             };
-                            Promise.race(
+                            Promise.race([
                                 fetch(checkUpdateUrl, {
                                     method: 'GET'
                                 }),
                                 new Promise(function (resolve, reject) {
                                     setTimeout(() => reject(new Error('request timeout')), 2000)
                                 })
-                            ).then(function (res) {
+                            ]).then(function (res) {
                                 return res.json()
                             }).then(onSuccess)
                                 .catch(function (err) {
@@ -289,6 +303,7 @@
                 </div>
                 <div class="dialog-opera">
                     <a id="ioslink" href="" class="dialog-btn">更新</a>
+                    <a id="ioscancel" href="javascript:void(0)" onclick="gotoApp()" class="dialog-btn">取消</a>
                 </div>
             </div>
         </div>

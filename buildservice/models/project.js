@@ -8,6 +8,16 @@ const projectSchema = new mongoose.Schema({
         url:String,
         id: String,
     },
+    settings: {
+        jpush: Boolean,
+        autoUpdate : Boolean,
+        release: {
+            serverPath: String,
+        },
+        debug: {
+            serverPath: String,
+        }
+    },
     ios: {
         svn: {
             url: String,
@@ -17,6 +27,16 @@ const projectSchema = new mongoose.Schema({
         mobileProvision: {
             filename: String,
             url:String,
+            id: String,
+        },
+        mobileProvisionDev: {
+            filename: String,
+            url:String,
+            id: String,
+        },
+        shareProvision: {
+            filename: String,
+            url: String,
             id: String,
         },
         certificate:{
@@ -50,6 +70,12 @@ const projectSchema = new mongoose.Schema({
         appId: String,
         appsecret: String,
         nonceStr: String,
+    },
+    alipay: {
+        appId: String,
+        appPrivateKey: String,
+        encryptKey: String,
+        taxNo: String,
     },
     plugins: [{
         platform:String,
