@@ -25,7 +25,7 @@
     "jade": "~1.11.0",
     "mobileprovision": "0.0.10",
     "moment": "^2.18.1",
-    "mongoose": "^4.9.3",
+    "mongoose": "^4.13.21",
     "nodemon": "^1.11.0",
     "p12": "~0.0.2",
     "plist": "git+https://github.com/OutSystems/plist.js.git",
