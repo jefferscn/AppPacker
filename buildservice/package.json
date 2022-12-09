@@ -19,7 +19,7 @@
     "cordova-lib": "^6.0.0",
     "createicon": "~0.0.4",
     "debug": "~2.2.0",
-    "express": "^4.14.0",
+    "express": "^4.17.3",
     "fs-extra": "^1.0.0",
     "fs-extra-promise": "^1.0.1",
     "jade": "~1.11.0",
